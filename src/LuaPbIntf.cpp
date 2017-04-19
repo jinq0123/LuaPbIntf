@@ -60,7 +60,14 @@ int luaopen_luapbintf(lua_State* L)
             .addPropertyReadOnly("type_name", &Message::GetTypeName)
             .addFunction("clear", &Message::Clear)
             .addPropertyReadOnly("is_initialized", &Message::IsInitialized)
-            .addPropertyReadOnly("byte_size_long", &Message::ByteSizeLong)
+            .addPropertyReadOnly("byte_size", &Message::ByteSizeLong)
+
+            // MessageLite API
+            .addFunction("parse", &Message::ParseFromString)
+            .addFunction("parse_partial", &Message::ParsePartialFromString)
+            .addFunction("serialize", &Message::SerializeAsString)
+            .addFunction("serialize_partial", &Message::SerializePartialAsString)
+
         .endClass()
 
         ;
