@@ -66,6 +66,7 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/LuaPbIntf.o \
+	$(OBJDIR)/LuaPbIntfImpl.o \
 
 RESOURCES := \
 
@@ -124,6 +125,9 @@ $(GCH): $(PCH)
 endif
 
 $(OBJDIR)/LuaPbIntf.o: ../src/LuaPbIntf.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LuaPbIntfImpl.o: ../src/detail/LuaPbIntfImpl.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
