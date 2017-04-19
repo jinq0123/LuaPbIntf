@@ -1,13 +1,17 @@
 #ifndef LUAPBINTFIMPL_H
 #define LUAPBINTFIMPL_H
 
-#include <string>
 #include <memory>  // for unique_ptr<>
+#include <string>
+#include <tuple>
+
+class ErrorCollector;
 
 namespace google {
 namespace protobuf {
 namespace compiler {
 class DiskSourceTree;
+class Importer;
 }  // namespace compiler
 }  // namespace protobuf
 }  // namespace google
@@ -28,11 +32,15 @@ public:
     void MapPath(const string& sVirtualPath, const string& sDiskPath);
 
     // e.g. CompileProtoFile("bar/foo.proto")
-    bool CompileProtoFile(const string& sProtoFile);
+    std::tuple<bool, string>
+    CompileProtoFile(const string& sProtoFile);
 
 private:
     using DiskSourceTree = google::protobuf::compiler::DiskSourceTree;
     std::unique_ptr<DiskSourceTree> m_pDiskSourceTree;
+    std::unique_ptr<ErrorCollector> m_pErrorCollector;
+    using Importer = google::protobuf::compiler::Importer;
+    std::unique_ptr<Importer> m_pImporter;
 };  // class LuaPbIntfImpl
 
 #endif  // LUAPBINTFIMPL_H

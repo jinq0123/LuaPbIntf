@@ -36,9 +36,10 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sVirtualPath, const string& sDiskPath) {
                 pImpl->MapPath(sVirtualPath, sDiskPath);
             })
+        // Input file must be relative to proto paths.
         .addFunction("compile_proto_file",
             [pImpl](const string& sProtoFile) {
-                pImpl->CompileProtoFile(sProtoFile);
+                return pImpl->CompileProtoFile(sProtoFile);
             })
         ;
     mod.pushToStack();
