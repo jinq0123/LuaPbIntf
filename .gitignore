@@ -35,3 +35,6 @@
 /test/*.dll
 /build/*.opendb
 /build/*.db
+/third_party/lua
+/third_party/lua-intf
+/third_party/protobuf

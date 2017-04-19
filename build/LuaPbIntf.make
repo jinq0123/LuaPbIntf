@@ -16,7 +16,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/libluapbintf.so
   OBJDIR = obj/Debug
   DEFINES +=
-  INCLUDES += -I../src
+  INCLUDES += -I../src -I../third_party/lua/src -I../third_party/lua-intf -I../third_party/protobuf/src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -fPIC
@@ -43,7 +43,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/libluapbintf.so
   OBJDIR = obj/Release
   DEFINES += -DNDEBUG
-  INCLUDES += -I../src
+  INCLUDES += -I../src -I../third_party/lua/src -I../third_party/lua-intf -I../third_party/protobuf/src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -fPIC
