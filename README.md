@@ -12,6 +12,10 @@ LuaPbIntf will dynamic load Protocol Buffer message definition files .proto
   without code generation.
 
 
-# Run test
+## Run test
 See [test/READMD.md](test/READMD.md)
 
+## Differ from luapb
+* Support proto3
+* Support service
+* Support to specify the directory in which to search for imports.
