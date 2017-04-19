@@ -3,7 +3,13 @@ Binding Protobuf to Lua53 with lua-intf
 
 NOT READY!
 
-Based on [luapb](https://github.com/jinq0123/luapb).
+LuaPbIntf is inspired by [luapb](https://github.com/zhanjunxiong/luapb),
+  but has been rewritten to take advantage of
+  [lua-intf](https://github.com/SteveKChiu/lua-intf),
+  which makes the binding easier to use and easier to understand.
 
-Using lua-intf to make the binding easier to use, and easier to understand.
+LuaPbIntf will dynamic load Protocol Buffer message definition files .proto
+  without code generation.
+
+
 
