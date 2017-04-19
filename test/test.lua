@@ -1,4 +1,4 @@
-local pb = require("luapb");
+local pb = require("luapbintf");
 
 --package lm;
 --message test

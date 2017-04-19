@@ -12,4 +12,6 @@ LuaPbIntf will dynamic load Protocol Buffer message definition files .proto
   without code generation.
 
 
+# Run test
+See [test/READMD.md](test/READMD.md)
 
