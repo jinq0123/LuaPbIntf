@@ -33,3 +33,5 @@
 /build/premake5.exe
 /test/*.exe
 /test/*.dll
+/build/*.opendb
+/build/*.db
