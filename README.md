@@ -1,5 +1,7 @@
 # LuaPbIntf
-Lua Protobuf interface binding Protobuf to Lua53 with lua-intf.
+Lua Protobuf interface.
+
+Binding Protobuf to Lua53 with lua-intf.
 
 NOT READY!
 
