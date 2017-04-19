@@ -56,6 +56,8 @@ int luaopen_luapbintf(lua_State* L)
             .addFunction("debug_string", &Message::DebugString)
             .addFunction("short_debug_string", &Message::ShortDebugString)
             .addFunction("utf8_debug_string", &Message::Utf8DebugString)
+            .addFunction("utf8_debug_string", &Message::Utf8DebugString)
+            .addProperty("type_name", &Message::GetTypeName)
         .endClass()
 
         ;
