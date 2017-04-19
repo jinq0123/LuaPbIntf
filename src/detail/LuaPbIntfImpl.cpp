@@ -30,6 +30,8 @@ LuaPbIntfImpl::LuaPbIntfImpl()
     m_pImporter(new Importer(m_pDiskSourceTree.get(),  // unique_ptr
         m_pErrorCollector.get()))
 {
+    // The current dir is the default proto path.
+    AddProtoPath("");
 }
 
 LuaPbIntfImpl::~LuaPbIntfImpl()
