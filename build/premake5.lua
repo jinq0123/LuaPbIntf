@@ -26,6 +26,12 @@ project "LuaPbIntf"
 		"../third_party/lua-intf",
 		"../third_party/protobuf/src",
 	}
+	libdirs {
+		"../third_party/lib",
+	}
+	links {
+		"lua",
+	}
 
 	--[[
 	From: https://github.com/SteveKChiu/lua-intf
@@ -37,9 +43,11 @@ project "LuaPbIntf"
 
 	filter "configurations:Debug"
 		flags { "Symbols" }
+		libdirs { "../third_party/lib/Debug" }
 		links { "libprotobufd" }
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		optimize "On"
+		libdirs { "../third_party/lib/Release" }
 		links { "libprotobuf" }
 -- End of project "LuaPbIntf"
