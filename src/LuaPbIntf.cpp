@@ -1,8 +1,15 @@
 #include "detail/LuaPbIntfImpl.h"
 
+#include <google/protobuf/message.h>
 #include <LuaIntf/LuaIntf.h>
 
-#include <iostream>
+#include <iostream>  // for cout
+#include <memory>  // for shared_ptr
+
+namespace LuaIntf
+{
+    LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
+}
 
 namespace {
 
@@ -20,12 +27,14 @@ __declspec(dllexport)
 int luaopen_luapbintf(lua_State* L)
 {
     using string = std::string;
+    using Message = google::protobuf::Message;
     using namespace LuaIntf;
 
     auto pImpl = std::make_shared<LuaPbIntfImpl>();
     LuaRef mod = LuaRef::createTable(L);
     LuaBinding(mod)
         .addFunction("test", &test)
+
         .addFunction("add_proto_path",
             [pImpl](const string& sProtoPath) {
                 pImpl->AddProtoPath(sProtoPath);
@@ -39,6 +48,13 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sProtoFile) {
                 return pImpl->CompileProtoFile(sProtoFile);
             })
+
+        .beginClass<Message>("Message")
+            .addFactory([pImpl](const std::string& sTypeName) {
+                    return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
+                })
+        .endClass()
+
         ;
     mod.pushToStack();
     return 1;

@@ -9,6 +9,8 @@ class ErrorCollector;
 
 namespace google {
 namespace protobuf {
+class Message;
+class DynamicMessageFactory;
 namespace compiler {
 class DiskSourceTree;
 class Importer;
@@ -34,12 +36,18 @@ public:
     std::tuple<bool, string>
     CompileProtoFile(const string& sProtoFile);
 
+    using Message = google::protobuf::Message;
+    using MessageSptr = std::shared_ptr<Message>;
+    MessageSptr MakeSharedMessage(const string& sTypeName);
+
 private:
     using DiskSourceTree = google::protobuf::compiler::DiskSourceTree;
     std::unique_ptr<DiskSourceTree> m_pDiskSourceTree;
     std::unique_ptr<ErrorCollector> m_pErrorCollector;
     using Importer = google::protobuf::compiler::Importer;
     std::unique_ptr<Importer> m_pImporter;
+    using MsgFactory = google::protobuf::DynamicMessageFactory;
+    std::unique_ptr<MsgFactory> m_pMsgFactory;
 };  // class LuaPbIntfImpl
 
 #endif  // LUAPBINTFIMPL_H

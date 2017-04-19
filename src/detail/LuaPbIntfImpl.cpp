@@ -1,6 +1,7 @@
 #include "LuaPbIntfImpl.h"
 
 #include <google/protobuf/compiler/importer.h>  // for DiskSourceTree
+#include <google/protobuf/dynamic_message.h>  // for GetPrototype()
 
 #include <sstream>  // for ostringstream
 
@@ -28,7 +29,8 @@ LuaPbIntfImpl::LuaPbIntfImpl()
     : m_pDiskSourceTree(new DiskSourceTree),  // unique_ptr
     m_pErrorCollector(new ErrorCollector),  // unique_ptr
     m_pImporter(new Importer(m_pDiskSourceTree.get(),  // unique_ptr
-        m_pErrorCollector.get()))
+        m_pErrorCollector.get())),
+    m_pMsgFactory(new MsgFactory)  // unique_ptr
 {
     // The current dir is the default proto path.
     AddProtoPath("");
@@ -57,10 +59,21 @@ std::tuple<bool, std::string>
 LuaPbIntfImpl::CompileProtoFile(const string& sProtoFile)
 {
     m_pErrorCollector->Clear();
-    const google::protobuf::FileDescriptor* desc =
+    const google::protobuf::FileDescriptor* pDesc =
         m_pImporter->Import(sProtoFile);
-    if (desc) return std::make_tuple(true, "");
+    if (pDesc) return std::make_tuple(true, "");
     return std::make_tuple(false, "Proto file compile error: "
         + m_pErrorCollector->GetError());
+}
+
+LuaPbIntfImpl::MessageSptr
+LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
+{
+    const google::protobuf::Descriptor* pDesc =
+        m_pImporter->pool()->FindMessageTypeByName(sTypeName);
+    if (!pDesc) return nullptr;
+    const Message* pProtoType = m_pMsgFactory->GetPrototype(pDesc);
+    if (!pDesc) return nullptr;
+    return MessageSptr(pProtoType->New());
 }
 
