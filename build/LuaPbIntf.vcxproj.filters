@@ -9,10 +9,16 @@
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h">
       <Filter>detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\detail\MessageGetField.h">
+      <Filter>detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp">
+      <Filter>detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\detail\MessageGetField.cpp">
       <Filter>detail</Filter>
     </ClCompile>
   </ItemGroup>

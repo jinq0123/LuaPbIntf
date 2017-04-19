@@ -95,10 +95,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h" />
+    <ClInclude Include="..\src\detail\MessageGetField.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp" />
+    <ClCompile Include="..\src\detail\MessageGetField.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

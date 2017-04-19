@@ -1,4 +1,5 @@
 #include "detail/LuaPbIntfImpl.h"
+#include "detail/MessageGetField.h"
 
 #include <google/protobuf/message.h>
 #include <LuaIntf/LuaIntf.h>
@@ -53,6 +54,7 @@ int luaopen_luapbintf(lua_State* L)
             .addFactory([pImpl](const std::string& sTypeName) {
                     return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
                 })
+            // XXX New(), MergeFrom(), CopyFrom()
             .addFunction("debug_string", &Message::DebugString)
             .addFunction("short_debug_string", &Message::ShortDebugString)
             .addFunction("utf8_debug_string", &Message::Utf8DebugString)
@@ -67,6 +69,10 @@ int luaopen_luapbintf(lua_State* L)
             .addFunction("parse_partial", &Message::ParsePartialFromString)
             .addFunction("serialize", &Message::SerializeAsString)
             .addFunction("serialize_partial", &Message::SerializePartialAsString)
+
+            // Read and modify the fields of the Message dynamically
+            .addFunction("get_field", &MessageGetField)
+            // .addFunction("set_field", &MessageSetField)
 
         .endClass()
 
