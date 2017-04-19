@@ -1,0 +1,16 @@
+package lm;
+enum Cmd
+{
+    CMD_TYPE_USER = 1;
+    CMD_TYPE_CHECK = 2;
+    CMD_TYPE_SKILL = 10;
+}
+message test
+{
+	required int32 uid = 1;
+	required int32 param = 2;
+	optional string param1 = 3;
+	repeated string param2 = 4;
+    optional Cmd cmd = 5[default = CMD_TYPE_CHECK];
+};
+

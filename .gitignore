@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+/build/.vs
+/build/bin
+/build/obj
+/build/premake5.exe
+/test/*.exe
+/test/*.dll
