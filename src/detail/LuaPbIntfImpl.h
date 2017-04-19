@@ -27,7 +27,6 @@ public:
 
     // e.g. AddProtoPath("proto")
     // e.g. AddProtoPath("d:/proto")
-    // AddProtoPath() and MapPath() must before CompileProtoFile().
     void AddProtoPath(const string& sProtoPath);
     void MapPath(const string& sVirtualPath, const string& sDiskPath);
 

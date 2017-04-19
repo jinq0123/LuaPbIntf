@@ -26,12 +26,10 @@ int luaopen_luapbintf(lua_State* L)
     LuaRef mod = LuaRef::createTable(L);
     LuaBinding(mod)
         .addFunction("test", &test)
-        // add_proto_path() must before compile_proto_file()
         .addFunction("add_proto_path",
             [pImpl](const string& sProtoPath) {
                 pImpl->AddProtoPath(sProtoPath);
             })
-        // map_path() must before compile_proto_file()
         .addFunction("map_path",
             [pImpl](const string& sVirtualPath, const string& sDiskPath) {
                 pImpl->MapPath(sVirtualPath, sDiskPath);
