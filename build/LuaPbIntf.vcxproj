@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h" />
     <ClInclude Include="..\src\detail\MessageGetField.h" />
+    <ClInclude Include="..\src\detail\MessageSptr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />

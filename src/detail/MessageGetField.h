@@ -15,9 +15,10 @@ namespace LuaIntf {
 class LuaRef;
 }  // namespace LuaIntf
 
+using FieldResult = std::tuple<LuaIntf::LuaRef, std::string>;
+
 // Returns (LuaRef, "") or (nil, error_string)
-std::tuple<LuaIntf::LuaRef, std::string>
-MessageGetField(lua_State* L,
+FieldResult MessageGetField(lua_State* L,
     const google::protobuf::Message& msg,
     const std::string& sFields);
 

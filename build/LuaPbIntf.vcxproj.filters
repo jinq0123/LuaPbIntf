@@ -12,6 +12,9 @@
     <ClInclude Include="..\src\detail\MessageGetField.h">
       <Filter>detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\detail\MessageSptr.h">
+      <Filter>detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />

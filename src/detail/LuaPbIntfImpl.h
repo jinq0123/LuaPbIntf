@@ -1,6 +1,8 @@
 #ifndef LUAPBINTFIMPL_H
 #define LUAPBINTFIMPL_H
 
+#include "MessageSptr.h"  // for MessageSptr
+
 #include <memory>  // for unique_ptr<>
 #include <string>
 #include <tuple>
@@ -36,8 +38,6 @@ public:
     std::tuple<bool, string>
     CompileProtoFile(const string& sProtoFile);
 
-    using Message = google::protobuf::Message;
-    using MessageSptr = std::shared_ptr<Message>;
     MessageSptr MakeSharedMessage(const string& sTypeName);
 
 private:

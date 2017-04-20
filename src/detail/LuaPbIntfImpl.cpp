@@ -2,6 +2,7 @@
 
 #include <google/protobuf/compiler/importer.h>  // for DiskSourceTree
 #include <google/protobuf/dynamic_message.h>  // for GetPrototype()
+#include <google/protobuf/message.h>  // for Message
 
 #include <sstream>  // for ostringstream
 
@@ -66,13 +67,13 @@ LuaPbIntfImpl::CompileProtoFile(const string& sProtoFile)
         + m_pErrorCollector->GetError());
 }
 
-LuaPbIntfImpl::MessageSptr
-LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
+MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
 {
     const google::protobuf::Descriptor* pDesc =
         m_pImporter->pool()->FindMessageTypeByName(sTypeName);
     if (!pDesc) return nullptr;
-    const Message* pProtoType = m_pMsgFactory->GetPrototype(pDesc);
+    const google::protobuf::Message* pProtoType =
+        m_pMsgFactory->GetPrototype(pDesc);
     if (!pDesc) return nullptr;
     return MessageSptr(pProtoType->New());
 }
