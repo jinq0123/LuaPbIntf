@@ -18,16 +18,24 @@ ErrorResult(lua_State* L, const string& sError)
 
 template <typename T>
 tuple<LuaRef, string>
-Result(lua_State* L, const T& value)
+ValueResult(lua_State* L, const T& value)
 {
     return make_tuple(LuaRef::fromValue(L, value), "");
+}
+
+tuple<LuaRef, string>
+MessageResult(lua_State* L, const Message& msg)
+{
+    std::shared_ptr<Message> pMsg(msg.New());
+    pMsg->CopyFrom(msg);
+    return ValueResult(L, pMsg);
 }
 
 }  // namespace
 
 tuple<LuaRef, string>
 MessageGetField(lua_State* L,
-    const google::protobuf::Message& msg,
+    const Message& msg,
     const std::string& sField)
 {
     assert(L);
@@ -52,28 +60,29 @@ MessageGetField(lua_State* L,
     switch (eCppType)
     {
     case Fd::CPPTYPE_INT32:
-        return Result(L, pRefl->GetInt32(msg, pField));
+        return ValueResult(L, pRefl->GetInt32(msg, pField));
     case Fd::CPPTYPE_INT64:
-        return Result(L, pRefl->GetInt64(msg, pField));
+        return ValueResult(L, pRefl->GetInt64(msg, pField));
     case Fd::CPPTYPE_UINT32:
-        return Result(L, pRefl->GetUInt32(msg, pField));
+        return ValueResult(L, pRefl->GetUInt32(msg, pField));
     case Fd::CPPTYPE_UINT64:
-        return Result(L, pRefl->GetUInt64(msg, pField));
+        return ValueResult(L, pRefl->GetUInt64(msg, pField));
     case Fd::CPPTYPE_DOUBLE:
-        return Result(L, pRefl->GetDouble(msg, pField));
+        return ValueResult(L, pRefl->GetDouble(msg, pField));
     case Fd::CPPTYPE_FLOAT:
-        return Result(L, pRefl->GetFloat(msg, pField));
+        return ValueResult(L, pRefl->GetFloat(msg, pField));
     case Fd::CPPTYPE_BOOL:
-        return Result(L, pRefl->GetBool(msg, pField));
+        return ValueResult(L, pRefl->GetBool(msg, pField));
     case Fd::CPPTYPE_ENUM:
-        return Result(L, pRefl->GetEnumValue(msg, pField));
+        return ValueResult(L, pRefl->GetEnumValue(msg, pField));
     case Fd::CPPTYPE_STRING:
-        return Result(L, pRefl->GetString(msg, pField));
+        return ValueResult(L, pRefl->GetString(msg, pField));
     case Fd::CPPTYPE_MESSAGE:
-        return ErrorResult(L, "Message field is to be implemented.");
+        return MessageResult(L, pRefl->GetMessage(msg, pField));
     default:
         return ErrorResult(L, "Unknown field type: " + msg.GetTypeName() + "." + sField);
     }
+    assert(false);
     return ErrorResult(L, "");
 }
 
