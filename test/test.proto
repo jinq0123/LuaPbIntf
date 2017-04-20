@@ -1,16 +1,21 @@
-package lm;
-enum Cmd
+syntax = "proto3";
+
+package test;
+
+enum CmdType
 {
+    CMD_TYPE_UNKNOWN = 0;
     CMD_TYPE_USER = 1;
     CMD_TYPE_CHECK = 2;
     CMD_TYPE_SKILL = 10;
 }
-message test
-{
-	required int32 uid = 1;
-	required int32 param = 2;
-	optional string param1 = 3;
-	repeated string param2 = 4;
-    optional Cmd cmd = 5[default = CMD_TYPE_CHECK];
-};
 
+message TestMsg
+{
+    int32 uid = 1;
+    int32 param = 2;
+    string name = 3;
+    repeated string names = 4;
+    CmdType cmd = 5;
+    TestMsg sub_msg = 6;
+};

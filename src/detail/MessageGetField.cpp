@@ -195,7 +195,9 @@ FieldResult MessageGetField(lua_State* L,
     case Fd::CPPTYPE_STRING:
         return ValueResult(L, pRefl->GetString(msg, pField));
     case Fd::CPPTYPE_MESSAGE:
-        return MessageResult(L, pRefl->GetMessage(msg, pField));
+        if (pRefl->HasField(msg, pField))
+            return MessageResult(L, pRefl->GetMessage(msg, pField));
+        return ValueResult(L, nullptr);
     default:
         break;
     }

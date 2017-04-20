@@ -1,18 +1,8 @@
 local pb = require("luapbintf");
 
---package lm;
---message test
---{
---	required int32 uid = 1;
---	required int32 param = 2;
---	optional string param1 = 3;
---	repeated string param2 = 4;
---};
+pb.compile_proto_file("test.proto");
 
-pb.import("test.proto");
-
-
-local msg = pb.new("lm.test");
+local msg = pb.Message("test.TestMsg");
 msg.uid = 12345;
 msg.param = 9876;
 msg.param1 = "zjx";
