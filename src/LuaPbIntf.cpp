@@ -71,7 +71,10 @@ int luaopen_luapbintf(lua_State* L)
             .addFunction("serialize_partial", &Message::SerializePartialAsString)
 
             // Read and modify the fields of the Message dynamically
-            .addFunction("get_field", &MessageGetField)
+            .addFunction("get_field",
+                    [L](const Message* pMsg, const string& sField) {
+                        return MessageGetField(L, *pMsg, sField);
+                    })
             // .addFunction("set_field", &MessageSetField)
 
         .endClass()
