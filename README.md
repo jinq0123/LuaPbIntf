@@ -21,3 +21,8 @@ See [test/READMD.md](test/READMD.md)
 * Support proto3
 * Support service
 * Support to specify the directory in which to search for imports.
+* luapb skips some types such as: TYPE_SFIXED32.
+  See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
+  
+## Note
+* Enum field value is integer.
