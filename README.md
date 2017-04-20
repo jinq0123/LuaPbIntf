@@ -26,3 +26,4 @@ See [test/READMD.md](test/READMD.md)
   
 ## Note
 * Enum field value is integer.
+* Repeated field or map field is a lua table.

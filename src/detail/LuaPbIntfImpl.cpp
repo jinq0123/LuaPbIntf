@@ -74,7 +74,7 @@ MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
     if (!pDesc) return nullptr;
     const google::protobuf::Message* pProtoType =
         m_pMsgFactory->GetPrototype(pDesc);
-    if (!pDesc) return nullptr;
+    if (!pProtoType) return nullptr;
     return MessageSptr(pProtoType->New());
 }
 
