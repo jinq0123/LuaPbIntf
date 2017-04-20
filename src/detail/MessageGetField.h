@@ -2,6 +2,7 @@
 #define DETAIL_MESSAGEGETFIELD_H
 
 #include <string>
+#include <tuple>
 
 struct lua_State;
 

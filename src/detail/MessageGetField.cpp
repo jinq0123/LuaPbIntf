@@ -60,6 +60,8 @@ void SetTblMessageElement(LuaRef& rTbl, int index, const Message& msg)
     // XXX
 }
 
+// XXX Use RepeatedFieldRef
+
 // Get repeated field element and insert it to lua table.
 // Map field is supported.
 // Returns empty if success.

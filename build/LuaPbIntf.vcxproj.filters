@@ -12,6 +12,9 @@
     <ClInclude Include="..\src\detail\MessageGetField.h">
       <Filter>detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\detail\MessageSetField.h">
+      <Filter>detail</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\detail\MessageSptr.h">
       <Filter>detail</Filter>
     </ClInclude>
@@ -22,6 +25,9 @@
       <Filter>detail</Filter>
     </ClCompile>
     <ClCompile Include="..\src\detail\MessageGetField.cpp">
+      <Filter>detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\detail\MessageSetField.cpp">
       <Filter>detail</Filter>
     </ClCompile>
   </ItemGroup>

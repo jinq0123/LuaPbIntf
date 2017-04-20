@@ -1,5 +1,6 @@
 #include "detail/LuaPbIntfImpl.h"
 #include "detail/MessageGetField.h"
+#include "detail/MessageSetField.h"
 
 #include <google/protobuf/message.h>
 #include <LuaIntf/LuaIntf.h>
@@ -72,10 +73,10 @@ int luaopen_luapbintf(lua_State* L)
 
             // Read and modify the fields of the Message dynamically
             .addFunction("get_field",
-                    [L](const Message* pMsg, const string& sField) {
-                        return MessageGetField(L, *pMsg, sField);
-                    })
-            // .addFunction("set_field", &MessageSetField)
+                [L](const Message* pMsg, const string& sField) {
+                    return MessageGetField(L, *pMsg, sField);
+                })
+            .addFunction("set_field", &MessageSetField)
 
         .endClass()
 

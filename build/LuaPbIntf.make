@@ -68,6 +68,7 @@ OBJECTS := \
 	$(OBJDIR)/LuaPbIntf.o \
 	$(OBJDIR)/LuaPbIntfImpl.o \
 	$(OBJDIR)/MessageGetField.o \
+	$(OBJDIR)/MessageSetField.o \
 
 RESOURCES := \
 
@@ -132,6 +133,9 @@ $(OBJDIR)/LuaPbIntfImpl.o: ../src/detail/LuaPbIntfImpl.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/MessageGetField.o: ../src/detail/MessageGetField.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/MessageSetField.o: ../src/detail/MessageSetField.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
