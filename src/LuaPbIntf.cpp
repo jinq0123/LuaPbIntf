@@ -52,7 +52,7 @@ int luaopen_luapbintf_c(lua_State* L)
             })
 
         .beginClass<Message>("Message")
-            .addFactory([pImpl](const std::string& sTypeName) {
+            .addFactory([L, pImpl](const std::string& sTypeName) {
                     return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
                 })
             // XXX New(), MergeFrom(), CopyFrom()
@@ -78,9 +78,9 @@ int luaopen_luapbintf_c(lua_State* L)
                 })
             .addFunction("set_field", &MessageSetField)
 
-        .endClass()
+        .endClass()  // Message
 
-        ;
+        ;  // LuaBinding(mod)
     mod.pushToStack();
     return 1;
 }

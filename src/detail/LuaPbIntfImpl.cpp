@@ -1,5 +1,8 @@
 #include "LuaPbIntfImpl.h"
 
+#include <LuaIntf/LuaIntf.h>  // for LuaException
+#include <LuaIntf/impl/LuaException.h>
+
 #include <google/protobuf/compiler/importer.h>  // for DiskSourceTree
 #include <google/protobuf/dynamic_message.h>  // for GetPrototype()
 #include <google/protobuf/message.h>  // for Message
@@ -71,10 +74,10 @@ MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
 {
     const google::protobuf::Descriptor* pDesc =
         m_pImporter->pool()->FindMessageTypeByName(sTypeName);
-    if (!pDesc) return nullptr;
+    if (!pDesc) throw LuaException("No message type: " + sTypeName);
     const google::protobuf::Message* pProtoType =
         m_pMsgFactory->GetPrototype(pDesc);
-    if (!pProtoType) return nullptr;
+    if (!pProtoType) throw LuaException("No prototype for " + sTypeName);
     return MessageSptr(pProtoType->New());
 }
 
