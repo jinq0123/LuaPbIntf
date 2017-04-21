@@ -19,6 +19,7 @@ project "LuaPbIntf"
 	files {
 		"../src/**.h",
 		"../src/**.cpp",
+		"../src/**.lua",
 	}
 	includedirs {
 		"../src",

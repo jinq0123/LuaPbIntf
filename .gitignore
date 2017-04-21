@@ -27,6 +27,7 @@
 *.exe
 *.out
 *.app
+
 /build/.vs
 /build/bin
 /build/obj
@@ -39,3 +40,4 @@
 /third_party/lua-intf
 /third_party/protobuf
 /test/*.bat
+/test/luapbintf.lua

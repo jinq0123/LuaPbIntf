@@ -6,6 +6,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\src\luapbintf.lua" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h">
       <Filter>detail</Filter>
     </ClInclude>

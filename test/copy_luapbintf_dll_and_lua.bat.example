@@ -1,3 +1,4 @@
 copy ..\build\bin\Debug\luapbintf.dll
+copy ..\src\*.lua
 
 pause
