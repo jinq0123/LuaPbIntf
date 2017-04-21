@@ -106,7 +106,8 @@
     <ClCompile Include="..\src\detail\MessageSetField.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\luapbintf.lua" />
+    <None Include="..\luapbintf\detail\message_metatable.lua" />
+    <None Include="..\luapbintf\luapbintf.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
