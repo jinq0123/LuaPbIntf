@@ -176,6 +176,7 @@ FieldResult MessageGetField(lua_State* L,
     Fd::CppType eCppType = pField->cpp_type();
     switch (eCppType)
     {
+    // Scalar field always has a default value.
     case Fd::CPPTYPE_INT32:
         return ValueResult(L, pRefl->GetInt32(msg, pField));
     case Fd::CPPTYPE_INT64:
@@ -195,6 +196,7 @@ FieldResult MessageGetField(lua_State* L,
     case Fd::CPPTYPE_STRING:
         return ValueResult(L, pRefl->GetString(msg, pField));
     case Fd::CPPTYPE_MESSAGE:
+        // For message field, the default value is null.
         if (pRefl->HasField(msg, pField))
             return MessageResult(L, pRefl->GetMessage(msg, pField));
         return ValueResult(L, nullptr);
