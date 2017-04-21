@@ -55,9 +55,9 @@ void LuaPbIntfImpl::MapPath(
     m_pDiskSourceTree->MapPath(sVirtualPath, sDiskPath);
 }
 
-// e.g. CompileProtoFile("bar/foo.proto")
+// e.g. ImportProtoFile("bar/foo.proto")
 std::tuple<bool, std::string>
-LuaPbIntfImpl::CompileProtoFile(const string& sProtoFile)
+LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
 {
     m_pErrorCollector->Clear();
     const google::protobuf::FileDescriptor* pDesc =

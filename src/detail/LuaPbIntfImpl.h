@@ -34,9 +34,9 @@ public:
     void AddProtoPath(const string& sProtoPath);
     void MapPath(const string& sVirtualPath, const string& sDiskPath);
 
-    // e.g. CompileProtoFile("bar/foo.proto")
+    // e.g. ImportProtoFile("bar/foo.proto")
     std::tuple<bool, string>
-    CompileProtoFile(const string& sProtoFile);
+    ImportProtoFile(const string& sProtoFile);
 
     MessageSptr MakeSharedMessage(const string& sTypeName);
 

@@ -1,6 +1,6 @@
 local pb = require("luapbintf");
 
-pb.compile_proto_file("test.proto");
+pb.imort_proto_file("test.proto");
 
 local msg = pb.Message("test.TestMsg");
 msg.uid = 12345;
