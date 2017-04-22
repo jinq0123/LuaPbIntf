@@ -8,6 +8,7 @@
 #include <google/protobuf/message.h>  // for Message
 
 #include <iostream>
+#include "MessageSetField.h"
 
 namespace LuaIntf
 {
@@ -68,8 +69,9 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
         if (LuaTypeID::STRING != key.type())
             continue;
         const string& sKey = key.toValue<string>();
-        std::cout << sKey << std::endl;
-        // XXX
+        std::cout << sKey << std::endl;  // DEL
+        const LuaRef& val = itr.value();
+        MessageSetField(pMsg.get(), sKey, val);
     }
     return pMsg;
 }  // EncodeToMessage()
