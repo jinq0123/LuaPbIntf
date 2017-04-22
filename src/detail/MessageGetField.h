@@ -2,7 +2,6 @@
 #define DETAIL_MESSAGEGETFIELD_H
 
 #include <string>
-#include <tuple>
 
 struct lua_State;
 
@@ -16,10 +15,7 @@ namespace LuaIntf {
 class LuaRef;
 }  // namespace LuaIntf
 
-using FieldResult = std::tuple<LuaIntf::LuaRef, std::string>;
-
-// Returns (LuaRef, "") or (nil, error_string)
-FieldResult MessageGetField(lua_State* L,
+LuaIntf::LuaRef MessageGetField(lua_State* L,
     const google::protobuf::Message& msg,
     const std::string& sFields);
 

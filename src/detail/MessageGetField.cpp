@@ -13,17 +13,6 @@ using namespace std;
 
 namespace {
 
-FieldResult ErrorResult(lua_State* L, const string& sError)
-{
-    return make_tuple(LuaRef(L, nullptr), sError);
-}
-
-template <typename T>
-FieldResult ValueResult(lua_State* L, const T& value)
-{
-    return make_tuple(LuaRef::fromValue(L, value), "");
-}
-
 MessageSptr MakeSharedMessage(const Message& msg)
 {
     MessageSptr pMsg(msg.New());
@@ -31,9 +20,9 @@ MessageSptr MakeSharedMessage(const Message& msg)
     return pMsg;
 }
 
-FieldResult MessageResult(lua_State* L, const Message& msg)
+LuaRef MessageResult(lua_State* L, const Message& msg)
 {
-    return ValueResult(L, MakeSharedMessage(msg));
+    return LuaRefValue(L, MakeSharedMessage(msg));
 }
 
 // Set lua table element value.
@@ -131,7 +120,7 @@ string GetRepeatedFieldElement(const Message& msg,
 
 // returns (TableRef, "") or (nil, error_string)
 // Map is supported.
-FieldResult GetRepeatedField(lua_State* L,
+LuaRef GetRepeatedField(lua_State* L,
     const Message& msg, const FieldDescriptor* pField)
 {
     assert(L);
@@ -145,14 +134,14 @@ FieldResult GetRepeatedField(lua_State* L,
     {
         string sError = GetRepeatedFieldElement(msg, pField, index, tbl);
         if (!sError.empty())
-            return ErrorResult(L, sError);
+            throw LuaException(sError);
     }
-    return make_tuple(tbl, "");
+    return tbl;
 }
 
 }  // namespace
 
-FieldResult MessageGetField(lua_State* L,
+LuaRef MessageGetField(lua_State* L,
     const Message& msg, const std::string& sField)
 {
     assert(L);
@@ -161,10 +150,10 @@ FieldResult MessageGetField(lua_State* L,
     assert(pDesc);
     const FieldDescriptor* pField = pDesc->FindFieldByName(sField);
     if (!pField)
-        return ErrorResult(L, "Message " + msg.GetTypeName() + " has no field: " + sField);
+        throw LuaException("Message " + msg.GetTypeName() + " has no field: " + sField);
     const Reflection* pRefl = msg.GetReflection();
     if (!pRefl)
-        return ErrorResult(L, "Message has no reflection.");
+        throw LuaException("Message has no reflection.");
 
     if (pField->is_repeated())
     {
@@ -178,33 +167,33 @@ FieldResult MessageGetField(lua_State* L,
     {
     // Scalar field always has a default value.
     case Fd::CPPTYPE_INT32:
-        return ValueResult(L, pRefl->GetInt32(msg, pField));
+        return LuaRefValue(L, pRefl->GetInt32(msg, pField));
     case Fd::CPPTYPE_INT64:
-        return ValueResult(L, pRefl->GetInt64(msg, pField));
+        return LuaRefValue(L, pRefl->GetInt64(msg, pField));
     case Fd::CPPTYPE_UINT32:
-        return ValueResult(L, pRefl->GetUInt32(msg, pField));
+        return LuaRefValue(L, pRefl->GetUInt32(msg, pField));
     case Fd::CPPTYPE_UINT64:
-        return ValueResult(L, pRefl->GetUInt64(msg, pField));
+        return LuaRefValue(L, pRefl->GetUInt64(msg, pField));
     case Fd::CPPTYPE_DOUBLE:
-        return ValueResult(L, pRefl->GetDouble(msg, pField));
+        return LuaRefValue(L, pRefl->GetDouble(msg, pField));
     case Fd::CPPTYPE_FLOAT:
-        return ValueResult(L, pRefl->GetFloat(msg, pField));
+        return LuaRefValue(L, pRefl->GetFloat(msg, pField));
     case Fd::CPPTYPE_BOOL:
-        return ValueResult(L, pRefl->GetBool(msg, pField));
+        return LuaRefValue(L, pRefl->GetBool(msg, pField));
     case Fd::CPPTYPE_ENUM:
-        return ValueResult(L, pRefl->GetEnumValue(msg, pField));
+        return LuaRefValue(L, pRefl->GetEnumValue(msg, pField));
     case Fd::CPPTYPE_STRING:
-        return ValueResult(L, pRefl->GetString(msg, pField));
+        return LuaRefValue(L, pRefl->GetString(msg, pField));
     case Fd::CPPTYPE_MESSAGE:
         // For message field, the default value is null.
         if (pRefl->HasField(msg, pField))
             return MessageResult(L, pRefl->GetMessage(msg, pField));
-        return ValueResult(L, nullptr);
+        return LuaRefValue(L, nullptr);
     default:
         break;
     }
     // Unknown field type CPPTYPE_UNKNOWN of Message.Field
-    return ErrorResult(L, string("Unknown field type ") +
+    throw LuaException(string("Unknown field type ") +
         pField->CppTypeName(eCppType) + " of " +
         msg.GetTypeName() + "." + sField);
 }

@@ -10,6 +10,7 @@ function M.__index(t, k)
     assert(k ~= c)
     local c_msg = t[c]  -- Internal C++ Message object.
     return c_msg:get_field(k)
+    -- XXX wrap to a proxy message if returns a message
 end
 
 return M
