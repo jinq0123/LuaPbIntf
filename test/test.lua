@@ -1,37 +1,36 @@
 local pb = require("luapbintf.luapbintf")
 
+-- test.proto imports common.proto
 pb.import_proto_file("test.proto")
 
 assert(pb.message("test.CommonMsg"))
-local msg = pb.message("test.TestMsg")
+assert(pb.message("test.TestMsg"))
+
+local msg = {}
 msg.uid = 12345
+assert(msg.uid == 12345)
 msg.param = 9876
-msg.param1 = "zjx"
---print("type: " .. type(msg.param2))
-msg.param2:add("first")
-msg.param2:add("second")
-msg.param2:add("three")
+msg.name = "Jin Qing"
+msg.names = {"n1", "n2", "n3"}
 
-print("uid: " .. msg.uid)
-print("param: " .. msg.param)
-print("param1: " .. msg.param1)
+--for i = 1, msg.param2:len() do
+--    local value = msg.param2:get(i)
+--    print("i: " .. i .. " value: " .. value)
+--end
 
+--msg.param2[1] = "test"
+--print("===== param2: " .. msg.param2:get(1))
 
-for i = 1, msg.param2:len() do
-    local value = msg.param2:get(i)
-    print("i: " .. i .. " value: " .. value)
-end
+--msg.param2:set(2, "test2")
+--print("===== param2: " .. msg.param2:get(2))
 
-msg.param2[1] = "test"
-print("===== param2: " .. msg.param2:get(1))
+local sz = pb.encode("test.TestMsg", msg)
+assert(#sz)
 
-msg.param2:set(2, "test2")
-print("===== param2: " .. msg.param2:get(2))
+--local enum_value = pb.getEnumValue("lm.Cmd", "CMD_TYPE_USER")
+--print(enum_value)
 
-local sz = pb.serializeToString(msg)
-print("sz size is ".. #sz)
+local msg2 = pb.decode("test.TestMsg", sz)
+assert(msg2.uid == 12345)
 
-local enum_value = pb.getEnumValue("lm.Cmd", "CMD_TYPE_USER")
-print(enum_value)
-
-print("cmd value is:" .. msg.cmd)
+print("Test OK!")
