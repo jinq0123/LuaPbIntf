@@ -1,4 +1,4 @@
 copy ..\build\bin\Debug\luapbintf.dll
-copy ..\src\*.lua
+xcopy /E /y ..\luapbintf luapbintf\
 
 pause

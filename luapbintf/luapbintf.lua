@@ -3,7 +3,7 @@
 local M = {}
 
 local c = require("luapbintf.c")
-local MsgMt = require("luapbintf.luapbintf.detail.message_metatable");
+local MsgMt = require("luapbintf.detail.message_metatable");
 
 M.test				= c.test
 M.add_proto_path	= c.add_proto_path
