@@ -34,11 +34,12 @@ LuaRef GetMessageKey(lua_State* L)
 }
 
 // Get MessageSptr in table.
-MessageSptr GetMessageSptrInTable(const LuaRef& tbl)
+MessageSptr GetMessageSptrInTable(const LuaRef& luaTable)
 {
-    assert(tbl.isTable());
-    static LuaRef s_key = GetMessageKey(tbl.state());
-    LuaRef c_msg = tbl.rawget(s_key);
+    assert(luaTable.isTable());
+    // Key is always the same.
+    static LuaRef s_key = GetMessageKey(luaTable.state());
+    LuaRef c_msg = luaTable.rawget(s_key);
     if (!c_msg) return nullptr;
     return c_msg.toValue<MessageSptr>();
 }
@@ -56,21 +57,26 @@ string Encoder::Encode(const string& sMsgTypeName, const LuaRef& luaTable) const
 }  // Encode()
 
 MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
-    const LuaRef& tbl) const
+    const LuaRef& luaTable) const
 {
-    MessageSptr pMsg = GetMessageSptrInTable(tbl);
-    if (pMsg && pMsg->GetTypeName() != sMsgTypeName)
-    {
-        throw LuaException("Message type mismatch (" + sMsgTypeName +
-            " expected, got " + pMsg->GetTypeName() + ").");
-    }
-    else
-    {
-        pMsg = m_luaPbIntfImpl.MakeSharedMessage(sMsgTypeName);
-        assert(pMsg);
-    }
+    assert(luaTable.isTable());
+    MessageSptr pMsg = GetMessageSptr(sMsgTypeName, luaTable);
+    assert(pMsg);
     // XXX
     return nullptr;
 }  // EncodeToMessage()
 
+// Get MessageSptr in table or make a new one.
+MessageSptr Encoder::GetMessageSptr(const string& sMsgTypeName,
+    const LuaRef& luaTable) const
+{
+    MessageSptr pMsg = GetMessageSptrInTable(luaTable);
+    if (!pMsg)
+        return m_luaPbIntfImpl.MakeSharedMessage(sMsgTypeName);
+    if (pMsg->GetTypeName() == sMsgTypeName)
+        return pMsg;
+
+    throw LuaException("Message type mismatch (" + sMsgTypeName +
+        " expected, got " + pMsg->GetTypeName() + ").");
+}
 

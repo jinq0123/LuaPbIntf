@@ -27,7 +27,9 @@ public:
 
 private:
     MessageSptr EncodeToMessage(const string& sMsgTypeName,
-        const LuaRef& tbl) const;
+        const LuaRef& luaTable) const;
+    MessageSptr GetMessageSptr(const string& sMsgTypeName,
+        const LuaRef& luaTable) const;
 
 private:
     // To make message.
