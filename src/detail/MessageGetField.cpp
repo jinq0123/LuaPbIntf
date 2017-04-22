@@ -20,7 +20,7 @@ MessageSptr MakeSharedMessage(const Message& msg)
     return pMsg;
 }
 
-LuaRef MessageResult(lua_State* L, const Message& msg)
+inline LuaRef MessageResult(lua_State* L, const Message& msg)
 {
     return LuaRefValue(L, MakeSharedMessage(msg));
 }
