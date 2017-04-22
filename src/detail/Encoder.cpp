@@ -14,8 +14,7 @@ namespace LuaIntf
     LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
 }
 
-using LuaIntf::LuaRef;
-using LuaIntf::LuaException;
+using namespace LuaIntf;
 using google::protobuf::Message;
 using std::string;
 
@@ -62,8 +61,17 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
     assert(luaTable.isTable());
     MessageSptr pMsg = GetMessageSptr(sMsgTypeName, luaTable);
     assert(pMsg);
-    // XXX
-    return nullptr;
+    const auto itrEnd = luaTable.end();
+    for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
+    {
+        const LuaRef& key = itr.key();
+        if (LuaTypeID::STRING != key.type())
+            continue;
+        const string& sKey = key.toValue<string>();
+        std::cout << sKey << std::endl;
+        // XXX
+    }
+    return pMsg;
 }  // EncodeToMessage()
 
 // Get MessageSptr in table or make a new one.
