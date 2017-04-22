@@ -51,10 +51,13 @@ int luaopen_luapbintf_c(lua_State* L)
             [pImpl](const string& sProtoFile) {
                 pImpl->ImportProtoFile(sProtoFile);
             })
-        .addFunction("encode", &Encoder::Encode)
+        .addFunction("encode",
+            [pImpl](const string& sMsgTypeName, const LuaRef& luaTable) {
+                pImpl->Encode(sMsgTypeName, luaTable);
+            })
 
         .beginClass<Message>("Message")
-            .addFactory([L, pImpl](const std::string& sTypeName) {
+            .addFactory([L, pImpl](const string& sTypeName) {
                     return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
                 })
             // XXX New(), MergeFrom(), CopyFrom()

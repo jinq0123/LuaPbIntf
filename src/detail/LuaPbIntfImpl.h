@@ -9,6 +9,10 @@
 
 class ErrorCollector;
 
+namespace LuaIntf {
+class LuaRef;
+}  // namespace LuaIntf
+
 namespace google {
 namespace protobuf {
 class Message;
@@ -37,7 +41,10 @@ public:
     // e.g. ImportProtoFile("bar/foo.proto")
     void ImportProtoFile(const string& sProtoFile);
 
-    MessageSptr MakeSharedMessage(const string& sTypeName);
+    MessageSptr MakeSharedMessage(const string& sTypeName) const;
+
+    std::string Encode(const std::string& sMsgTypeName,
+        const LuaIntf::LuaRef& luaTable) const;
 
 private:
     using DiskSourceTree = google::protobuf::compiler::DiskSourceTree;

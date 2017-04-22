@@ -1,8 +1,10 @@
 #include "Encoder.h"
 
+#include "LuaPbIntfImpl.h"  // for MakeSharedMessage()
 #include "MessageSptr.h"
 
 #include <LuaIntf/LuaIntf.h>
+#include <LuaIntf/LuaState.h>  // for LuaException
 #include <google/protobuf/message.h>  // for Message
 
 #include <iostream>
@@ -13,6 +15,7 @@ namespace LuaIntf
 }
 
 using LuaIntf::LuaRef;
+using LuaIntf::LuaException;
 using google::protobuf::Message;
 using std::string;
 
@@ -30,8 +33,8 @@ LuaRef GetMessageKey(lua_State* L)
     return c;
 }
 
-// Get tbl[c] which is a MessageSptr.
-MessageSptr GetMessageSptrFromTable(const LuaRef& tbl)
+// Get MessageSptr in table.
+MessageSptr GetMessageSptrInTable(const LuaRef& tbl)
 {
     assert(tbl.isTable());
     static LuaRef s_key = GetMessageKey(tbl.state());
@@ -40,26 +43,34 @@ MessageSptr GetMessageSptrFromTable(const LuaRef& tbl)
     return c_msg.toValue<MessageSptr>();
 }
 
-MessageSptr EncodeToMessage(const string& sMsgTypeName, const LuaRef& tbl)
-{
-    MessageSptr pMsg = GetMessageSptrFromTable(tbl);
-    if (pMsg)
-    {
-    }
-}
-
 }  // namespace
 
-namespace Encoder {
-
-// tbl may be a message proxy table which has a C++ Message object,
-//  or a normal table without C++ Message object.
-string Encode(const string& sMsgTypeName, const LuaRef& tbl)
+// luaTable may be a normal lua table,
+// a message proxy table which has a C++ MessageSptr object,
+string Encoder::Encode(const string& sMsgTypeName, const LuaRef& luaTable) const
 {
-    tbl.checkTable();  // Bad argument #-1 to 'encode' (table expected, got number)
-    MessageSptr pMsg = EncodeToMessage(sMsgTypeName, tbl);
+    assert(luaTable.isTable());
+    MessageSptr pMsg = EncodeToMessage(sMsgTypeName, luaTable);
     assert(pMsg);
     return pMsg->SerializeAsString();
 }  // Encode()
 
-}  // namespace Encoder
+MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
+    const LuaRef& tbl) const
+{
+    MessageSptr pMsg = GetMessageSptrInTable(tbl);
+    if (pMsg && pMsg->GetTypeName() != sMsgTypeName)
+    {
+        throw LuaException("Message type mismatch (" + sMsgTypeName +
+            " expected, got " + pMsg->GetTypeName() + ").");
+    }
+    else
+    {
+        pMsg = m_luaPbIntfImpl.MakeSharedMessage(sMsgTypeName);
+        assert(pMsg);
+    }
+    // XXX
+    return nullptr;
+}  // EncodeToMessage()
+
+

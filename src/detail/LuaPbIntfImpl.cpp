@@ -1,13 +1,18 @@
 #include "LuaPbIntfImpl.h"
 
-#include <LuaIntf/LuaIntf.h>  // for LuaException
-#include <LuaIntf/impl/LuaException.h>
+#include "Encoder.h"
+
+// for LuaException
+#include <LuaIntf/LuaIntf.h>
+#include <LuaIntf/LuaState.h>
 
 #include <google/protobuf/compiler/importer.h>  // for DiskSourceTree
 #include <google/protobuf/dynamic_message.h>  // for GetPrototype()
 #include <google/protobuf/message.h>  // for Message
 
 #include <sstream>  // for ostringstream
+
+using namespace LuaIntf;
 
 // See CommandLineInterface::Run().
 
@@ -68,7 +73,7 @@ void LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
     throw LuaException("Failed to import: " + m_pErrorCollector->GetError());
 }
 
-MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
+MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName) const
 {
     const google::protobuf::Descriptor* pDesc =
         m_pImporter->pool()->FindMessageTypeByName(sTypeName);
@@ -79,3 +84,12 @@ MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
     return MessageSptr(pProtoType->New());
 }
 
+
+// luaTable may be a normal table,
+// or a message proxy table which has a C++ MessageSptr object,
+std::string LuaPbIntfImpl::Encode(const string& sMsgTypeName,
+    const LuaRef& luaTable) const
+{
+    luaTable.checkTable();  // Bad argument #-1 to 'encode' (table expected, got number)
+    return Encoder(*this).Encode(sMsgTypeName, luaTable);
+}  // Encode()
