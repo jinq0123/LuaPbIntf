@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package test;
 
-import "common.proto"
+import "common.proto";
 
 enum CmdType
 {
@@ -19,5 +19,5 @@ message TestMsg
     string name = 3;
     repeated string names = 4;
     CmdType cmd = 5;
-    Common common = 6;
+    CommonMsg common_msg = 6;
 };

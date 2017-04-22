@@ -24,6 +24,9 @@
     <None Include="..\luapbintf\luapbintf.lua">
       <Filter>luapbintf</Filter>
     </None>
+    <None Include="..\test\common.proto">
+      <Filter>test</Filter>
+    </None>
     <None Include="..\test\test.lua">
       <Filter>test</Filter>
     </None>

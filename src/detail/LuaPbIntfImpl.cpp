@@ -59,15 +59,13 @@ void LuaPbIntfImpl::MapPath(
 }
 
 // e.g. ImportProtoFile("bar/foo.proto")
-std::tuple<bool, std::string>
-LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
+void LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
 {
     m_pErrorCollector->Clear();
     const google::protobuf::FileDescriptor* pDesc =
         m_pImporter->Import(sProtoFile);
-    if (pDesc) return std::make_tuple(true, "");
-    return std::make_tuple(false, "Proto file compile error: "
-        + m_pErrorCollector->GetError());
+    if (pDesc) return;
+    throw LuaException("Failed to import: " + m_pErrorCollector->GetError());
 }
 
 MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName)
