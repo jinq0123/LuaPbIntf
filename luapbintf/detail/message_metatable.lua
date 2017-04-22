@@ -8,6 +8,7 @@ end  -- get_field_of_c_message()
 local function set_field_of_c_message(c_msg, k)
 end  -- set_field_of_c_message()
 
+-- Return a metatable.
 local function MessageMetatable(msg_type_name)
     assert("string" == type(msg_type_name))
     local c_message = assert(c.Message(msg_type_name))

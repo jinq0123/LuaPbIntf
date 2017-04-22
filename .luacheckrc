@@ -1,6 +1,6 @@
 exclude_files = {
     "third_party/**/*",
-    "build/*",
+    "build/**/*",
 }
 
 globals = {
