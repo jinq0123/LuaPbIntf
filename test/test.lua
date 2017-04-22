@@ -2,8 +2,8 @@ local pb = require("luapbintf.luapbintf")
 
 pb.import_proto_file("test.proto")
 
-assert(pb.Message("test.Common"))
-local msg = pb.Message("test.TestMsg")
+assert(pb.message("test.Common"))
+local msg = pb.message("test.TestMsg")
 msg.uid = 12345
 msg.param = 9876
 msg.param1 = "zjx"
