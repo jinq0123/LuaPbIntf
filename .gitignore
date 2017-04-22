@@ -41,3 +41,4 @@
 /third_party/protobuf
 /test/*.bat
 /test/luapbintf.lua
+/build/LuaPbIntf.sdf

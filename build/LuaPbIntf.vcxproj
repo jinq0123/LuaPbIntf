@@ -108,6 +108,8 @@
   <ItemGroup>
     <None Include="..\luapbintf\detail\message_metatable.lua" />
     <None Include="..\luapbintf\luapbintf.lua" />
+    <None Include="..\test\test.lua" />
+    <None Include="..\test\test.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

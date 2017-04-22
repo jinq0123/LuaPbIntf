@@ -13,6 +13,9 @@
     <Filter Include="src\detail">
       <UniqueIdentifier>{4FAEE655-3B66-28A3-A46D-01FF9044C393}</UniqueIdentifier>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{65689E7C-519F-9F0D-FA8B-8510E6A11B0F}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\luapbintf\detail\message_metatable.lua">
@@ -20,6 +23,12 @@
     </None>
     <None Include="..\luapbintf\luapbintf.lua">
       <Filter>luapbintf</Filter>
+    </None>
+    <None Include="..\test\test.lua">
+      <Filter>test</Filter>
+    </None>
+    <None Include="..\test\test.proto">
+      <Filter>test</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
