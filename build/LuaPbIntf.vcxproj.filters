@@ -35,6 +35,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\detail\Encoder.h">
+      <Filter>src\detail</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h">
       <Filter>src\detail</Filter>
     </ClInclude>
@@ -51,6 +54,9 @@
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\detail\Encoder.cpp">
+      <Filter>src\detail</Filter>
     </ClCompile>
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp">
       <Filter>src\detail</Filter>

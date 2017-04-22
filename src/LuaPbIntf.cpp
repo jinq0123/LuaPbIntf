@@ -1,6 +1,7 @@
 #include "detail/LuaPbIntfImpl.h"
 #include "detail/MessageGetField.h"
 #include "detail/MessageSetField.h"
+#include "detail/Encoder.h"
 
 #include <google/protobuf/message.h>
 #include <LuaIntf/LuaIntf.h>
@@ -50,6 +51,7 @@ int luaopen_luapbintf_c(lua_State* L)
             [pImpl](const string& sProtoFile) {
                 pImpl->ImportProtoFile(sProtoFile);
             })
+        .addFunction("encode", &Encoder::Encode)
 
         .beginClass<Message>("Message")
             .addFactory([L, pImpl](const std::string& sTypeName) {

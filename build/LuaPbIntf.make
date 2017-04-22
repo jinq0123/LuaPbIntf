@@ -66,6 +66,7 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/LuaPbIntf.o \
+	$(OBJDIR)/Encoder.o \
 	$(OBJDIR)/LuaPbIntfImpl.o \
 	$(OBJDIR)/MessageGetField.o \
 	$(OBJDIR)/MessageSetField.o \
@@ -127,6 +128,9 @@ $(GCH): $(PCH)
 endif
 
 $(OBJDIR)/LuaPbIntf.o: ../src/LuaPbIntf.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Encoder.o: ../src/detail/Encoder.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LuaPbIntfImpl.o: ../src/detail/LuaPbIntfImpl.cpp

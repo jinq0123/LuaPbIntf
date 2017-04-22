@@ -5,25 +5,26 @@ local M = {}
 local c = require("luapbintf.c")
 local msg_mt = require("luapbintf.detail.message_metatable");
 
-M.test				= c.test
-M.add_proto_path	= c.add_proto_path
-M.map_path			= c.map_path
-M.import_proto_file	= c.import_proto_file
+M.test              = c.test
+M.add_proto_path    = c.add_proto_path
+M.map_path          = c.map_path
+M.import_proto_file = c.import_proto_file
+M.encode            = c.encode
 
 -- Encode table to string as message.
 -- t may be a normal table or a message table or the mix.
-function M.encode(msg_type_name, t)
-    assert("string" == type(msg_type_name))
-    assert("table" == type(t))
-    local c_msg = c.Message(msg_type_name)
-    for k,v in pairs(t) do
-        -- XXX if v is table...
-        if "string" == type(k) then
-            c_msg:set_field(k, v)
-        end
-    end
-    return c_msg:serialize()
-end  -- M.encode()
+--function M.encode(msg_type_name, t)
+--    assert("string" == type(msg_type_name))
+--    assert("table" == type(t))
+--    local c_msg = c.Message(msg_type_name)
+--    for k,v in pairs(t) do
+--        -- XXX if v is table...
+--        if "string" == type(k) then
+--            c_msg:set_field(k, v)
+--        end
+--    end
+--    return c_msg:serialize()
+--end  -- M.encode()
 
 -- Decode string to message proxy table.
 function M.decode(msg_type_name, s)

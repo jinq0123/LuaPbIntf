@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\detail\Encoder.h" />
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h" />
     <ClInclude Include="..\src\detail\MessageGetField.h" />
     <ClInclude Include="..\src\detail\MessageSetField.h" />
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />
+    <ClCompile Include="..\src\detail\Encoder.cpp" />
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp" />
     <ClCompile Include="..\src\detail\MessageGetField.cpp" />
     <ClCompile Include="..\src\detail\MessageSetField.cpp" />
