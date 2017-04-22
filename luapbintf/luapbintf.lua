@@ -3,7 +3,7 @@
 local M = {}
 
 local c = require("luapbintf.c")
-local msg_mt = require("luapbintf.luapbintf.detail.message_metatable");
+local MsgMt = require("luapbintf.luapbintf.detail.message_metatable");
 
 M.test				= c.test
 M.add_proto_path	= c.add_proto_path
@@ -43,7 +43,7 @@ function M.message(msg_type_name)
     -- message table is a empty table with a metatable,
     --  which has a C++ Message object.
     local ret = {}
-    setmetatable(ret, assert(msg_mt.get(msg_type_name)))
+    setmetatable(ret, assert(MsgMt(msg_type_name)))
     return ret
 end  -- message()
 

@@ -18,7 +18,7 @@ print("param1: " .. msg.param1);
 
 for i = 1, msg.param2:len() do
     local value = msg.param2:get(i);
-    print("i: " .. i .. " value: " .. value); 
+    print("i: " .. i .. " value: " .. value);
 end
 
 msg.param2[1] = "test"
