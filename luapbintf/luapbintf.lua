@@ -14,8 +14,14 @@ M.import_proto_file	= c.import_proto_file
 function M.encode(msg_type_name, t)
     assert("string" == type(msg_type_name))
     assert("table" == type(t))
-    local c_msg = t[c]
-    -- XXX
+    local c_msg = c.Message(msg_type_name)
+    for k,v in pairs(t) do
+        -- XXX if v is table...
+        if "string" == type(k) then
+            c_msg:set_field(k, v)
+        end
+    end
+    return c_msg:serialize()
 end  -- M.encode()
 
 -- Decode string to message proxy table.
