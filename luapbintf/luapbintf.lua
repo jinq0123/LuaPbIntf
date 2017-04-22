@@ -10,7 +10,8 @@ M.add_proto_path	= c.add_proto_path
 M.map_path			= c.map_path
 M.import_proto_file	= c.import_proto_file
 
--- Encode message table to string.
+-- Encode table to string as message.
+-- t may be a normal table or a message table or the mix.
 function M.encode(msg_type_name, t)
     assert("string" == type(msg_type_name))
     assert("table" == type(t))

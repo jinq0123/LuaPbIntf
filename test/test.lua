@@ -32,5 +32,10 @@ assert(#sz)
 
 local msg2 = pb.decode("test.TestMsg", sz)
 assert(msg2.uid == 12345)
+assert(msg2.name == "Jin Qing")
+assert(#msg2.names == 3)
+local n3 = msg2.names[3]
+-- Maybe reordered.
+assert(n3 == "n1" or n3 == "n2" or n3 == "n3")
 
 print("Test OK!")
