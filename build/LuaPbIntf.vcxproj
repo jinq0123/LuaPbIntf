@@ -95,17 +95,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\detail\Encoder.h" />
+    <ClInclude Include="..\src\detail\FieldSetter.h" />
     <ClInclude Include="..\src\detail\LuaPbIntfImpl.h" />
     <ClInclude Include="..\src\detail\MessageGetField.h" />
-    <ClInclude Include="..\src\detail\MessageSetField.h" />
     <ClInclude Include="..\src\detail\MessageSptr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />
     <ClCompile Include="..\src\detail\Encoder.cpp" />
+    <ClCompile Include="..\src\detail\FieldSetter.cpp" />
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp" />
     <ClCompile Include="..\src\detail\MessageGetField.cpp" />
-    <ClCompile Include="..\src\detail\MessageSetField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\luapbintf\detail\message_metatable.lua" />
