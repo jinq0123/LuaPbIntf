@@ -62,6 +62,7 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
     assert(luaTable.isTable());
     MessageSptr pMsg = GetMessageSptr(sMsgTypeName, luaTable);
     assert(pMsg);
+    FieldSetter fieldSetter(m_luaPbIntfImpl);
     const auto itrEnd = luaTable.end();
     for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
     {
@@ -71,7 +72,7 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
         const string& sKey = key.toValue<string>();
         std::cout << sKey << std::endl;  // DEL
         const LuaRef& val = itr.value();
-        MessageSetField(pMsg.get(), sKey, val);
+        fieldSetter.SetField(pMsg.get(), sKey, val);
     }
     return pMsg;
 }  // EncodeToMessage()

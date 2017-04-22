@@ -3,6 +3,8 @@
 
 #include <string>
 
+class LuaPbIntfImpl;
+
 namespace google {
 namespace protobuf {
 class Message;
@@ -13,7 +15,21 @@ namespace LuaIntf {
 class LuaRef;
 }  // namespace LuaIntf
 
-void MessageSetField(google::protobuf::Message* pMsg,
-    const std::string& sFields, const LuaIntf::LuaRef& luaRef);
+class FieldSetter final
+{
+public:
+    explicit FieldSetter(const LuaPbIntfImpl& luaPbIntfImpl)
+        : m_luaPbIntfImpl(luaPbIntfImpl)
+    {
+    }
+
+public:
+    void SetField(google::protobuf::Message* pMsg,
+        const std::string& sField, const LuaIntf::LuaRef& luaValue);
+
+private:
+    // To make Encoder for sub-message.
+    const LuaPbIntfImpl& m_luaPbIntfImpl;
+};  // class FieldSetter
 
 #endif  // DETAIL_MESSAGESETFIELD_H

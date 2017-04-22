@@ -9,8 +9,8 @@ using namespace LuaIntf;
 using namespace google::protobuf;
 using namespace std;
 
-void MessageSetField(Message* pMsg,
-    const std::string& sField, const LuaRef& luaRef)
+void FieldSetter::SetField(Message* pMsg,
+    const std::string& sField, const LuaRef& luaValue)
 {
     assert(pMsg);
     const Descriptor* pDesc = pMsg->GetDescriptor();
@@ -25,7 +25,7 @@ void MessageSetField(Message* pMsg,
     if (pField->is_repeated())
     {
         throw LuaException("Setting repeated field is to be implemented.");
-        // XXX return SetRepeatedField(*pMsg, pField, luaRef);
+        // XXX return SetRepeatedField(*pMsg, pField, luaValue);
     }
 
     using Fd = FieldDescriptor;
@@ -33,32 +33,32 @@ void MessageSetField(Message* pMsg,
     switch (eCppType)
     {
     case Fd::CPPTYPE_INT32:
-        pRefl->SetInt32(pMsg, pField, luaRef.toValue<int32>());
+        pRefl->SetInt32(pMsg, pField, luaValue.toValue<int32>());
         return;
     case Fd::CPPTYPE_INT64:
-        pRefl->SetInt64(pMsg, pField, luaRef.toValue<int64>());
+        pRefl->SetInt64(pMsg, pField, luaValue.toValue<int64>());
         return;
     case Fd::CPPTYPE_UINT32:
-        pRefl->SetUInt32(pMsg, pField, luaRef.toValue<uint32>());
+        pRefl->SetUInt32(pMsg, pField, luaValue.toValue<uint32>());
         return;
     case Fd::CPPTYPE_UINT64:
-        pRefl->SetUInt64(pMsg, pField, luaRef.toValue<uint64>());
+        pRefl->SetUInt64(pMsg, pField, luaValue.toValue<uint64>());
         return;
     case Fd::CPPTYPE_DOUBLE:
-        pRefl->SetDouble(pMsg, pField, luaRef.toValue<double>());
+        pRefl->SetDouble(pMsg, pField, luaValue.toValue<double>());
         return;
     case Fd::CPPTYPE_FLOAT:
-        pRefl->SetFloat(pMsg, pField, luaRef.toValue<float>());
+        pRefl->SetFloat(pMsg, pField, luaValue.toValue<float>());
         return;
     case Fd::CPPTYPE_BOOL:
-        pRefl->SetBool(pMsg, pField, luaRef.toValue<bool>());
+        pRefl->SetBool(pMsg, pField, luaValue.toValue<bool>());
         return;
     case Fd::CPPTYPE_ENUM:
         // XXX Support enum name
-        pRefl->SetEnumValue(pMsg, pField, luaRef.toValue<int>());
+        pRefl->SetEnumValue(pMsg, pField, luaValue.toValue<int>());
         return;
     case Fd::CPPTYPE_STRING:
-        pRefl->SetString(pMsg, pField, luaRef.toValue<string>());
+        pRefl->SetString(pMsg, pField, luaValue.toValue<string>());
         return;
     case Fd::CPPTYPE_MESSAGE:
         // XXX

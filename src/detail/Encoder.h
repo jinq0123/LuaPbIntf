@@ -32,7 +32,7 @@ private:
         const LuaRef& luaTable) const;
 
 private:
-    // To make message.
+    // To make message and to make FielderSetter.
     const LuaPbIntfImpl& m_luaPbIntfImpl;
 };  // class Encoder
 

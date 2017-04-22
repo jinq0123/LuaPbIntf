@@ -57,7 +57,7 @@ int luaopen_luapbintf_c(lua_State* L)
             })
 
         .beginClass<Message>("Message")
-            .addFactory([L, pImpl](const string& sTypeName) {
+            .addFactory([pImpl](const string& sTypeName) {
                     return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
                 })
             // XXX New(), MergeFrom(), CopyFrom()
@@ -81,7 +81,11 @@ int luaopen_luapbintf_c(lua_State* L)
                 [L](const Message* pMsg, const string& sField) {
                     return MessageGetField(L, *pMsg, sField);
                 })
-            .addFunction("set_field", &MessageSetField)
+            .addFunction("set_field",
+                [pImpl](Message* pMsg, const string& sField,
+                        const LuaRef& luaValue) {
+                    FieldSetter(*pImpl).SetField(pMsg, sField, luaValue);
+                })
 
         .endClass()  // Message
 
