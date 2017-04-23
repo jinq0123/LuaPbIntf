@@ -1,9 +1,7 @@
-#ifndef DETAIL_MESSAGESETFIELD_H
-#define DETAIL_MESSAGESETFIELD_H
+#ifndef DETAIL_MESSAGESETTER_H
+#define DETAIL_MESSAGESETTER_H
 
 #include <string>
-
-class LuaPbIntfImpl;
 
 namespace google {
 namespace protobuf {
@@ -15,25 +13,23 @@ namespace LuaIntf {
 class LuaRef;
 }  // namespace LuaIntf
 
-class FieldSetter final
+class MessageSetter final
 {
 public:
-    explicit FieldSetter(const LuaPbIntfImpl& luaPbIntfImpl)
-        : m_luaPbIntfImpl(luaPbIntfImpl)
+    using Message = google::protobuf::Message;
+    explicit MessageSetter(Message& rMsg) : m_rMsg(rMsg)
     {
     }
 
 public:
-    using Message = google::protobuf::Message;
     using LuaRef = LuaIntf::LuaRef;
     using string = std::string;
 
-    void SetMsgField(Message& rMsg, const string& sField, const LuaRef& luaValue);
-    void SetMsg(Message& rMsg, const LuaRef& luaTable);
+    void SetField(const string& sField, const LuaRef& luaValue);
+    void SetMsg(const LuaRef& luaTable);
 
 private:
-    // To make Encoder for sub-message.
-    const LuaPbIntfImpl& m_luaPbIntfImpl;
-};  // class FieldSetter
+    Message& m_rMsg;
+};  // class MessageSetter
 
-#endif  // DETAIL_MESSAGESETFIELD_H
+#endif  // DETAIL_MESSAGESETTER_H

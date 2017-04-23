@@ -82,10 +82,10 @@ int luaopen_luapbintf_c(lua_State* L)
                     return MessageGetField(L, *pMsg, sField);
                 })
             .addFunction("set_field",
-                [pImpl](Message* pMsg, const string& sField,
+                [](Message* pMsg, const string& sField,
                         const LuaRef& luaValue) {
                     assert(pMsg);
-                    FieldSetter(*pImpl).SetMsgField(*pMsg, sField, luaValue);
+                    MessageSetter(*pMsg).SetField(sField, luaValue);
                 })
 
         .endClass()  // Message

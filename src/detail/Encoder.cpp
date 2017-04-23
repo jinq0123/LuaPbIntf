@@ -62,8 +62,7 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
     assert(luaTable.isTable());
     MessageSptr pMsg = GetMessageSptr(sMsgTypeName, luaTable);
     assert(pMsg);
-    FieldSetter fieldSetter(m_luaPbIntfImpl);
-    fieldSetter.SetMsg(*pMsg, luaTable);
+    MessageSetter(*pMsg).SetMsg(luaTable);
     return pMsg;
 }  // EncodeToMessage()
 
