@@ -45,7 +45,7 @@ int luaopen_luapbintf(lua_State* L)
             })
         .addFunction("encode",
             [pImpl](const string& sMsgTypeName, const LuaRef& luaTable) {
-                pImpl->Encode(sMsgTypeName, luaTable);
+                return pImpl->Encode(sMsgTypeName, luaTable);
             })
         .addFunction("decode",
             [L, pImpl](const string& sMsgTypeName, const string& sData) {
