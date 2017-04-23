@@ -26,6 +26,6 @@ local n3 = msg2.names[3]
 -- Maybe reordered.
 assert(n3 == "n1" or n3 == "n2" or n3 == "n3")
 assert(10 == msg2.cmd)
-assert(msg2.common)
+assert(msg2.common_msg)
 
 print("Test OK!")
