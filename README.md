@@ -26,6 +26,22 @@ See [test/READMD.md](test/READMD.md)
 * luapb skips some types such as: TYPE_SFIXED32.
   See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
   
+## Example
+```
+local pb = require("luapbintf")
+
+pb.import_proto_file("test.proto")
+
+local msg = { uid = 12345 }
+local sz = pb.encode("test.TestMsg", msg)
+
+local msg2 = pb.decode("test.TestMsg", sz)
+assert(msg2.uid == 12345)
+```  
+
 ## Note
 * Enum field value is integer.
 * Repeated field or map field is a lua table.
+
+## Reference
+See [doc/reference.md](doc/reference.md).
