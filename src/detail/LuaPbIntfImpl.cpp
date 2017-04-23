@@ -1,6 +1,7 @@
 #include "LuaPbIntfImpl.h"
 
 #include "Encoder.h"
+#include "MsgToTbl.h"
 
 // for LuaException
 #include <LuaIntf/LuaIntf.h>
@@ -84,7 +85,6 @@ MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName) const
     return MessageSptr(pProtoType->New());
 }
 
-
 // luaTable may be a normal table,
 // or a message proxy table which has a C++ MessageSptr object,
 std::string LuaPbIntfImpl::Encode(const string& sMsgTypeName,
@@ -93,3 +93,14 @@ std::string LuaPbIntfImpl::Encode(const string& sMsgTypeName,
     luaTable.checkTable();  // Bad argument #-1 to 'encode' (table expected, got number)
     return Encoder(*this).Encode(sMsgTypeName, luaTable);
 }  // Encode()
+
+LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
+    const string& sData) const
+{
+    assert(L);
+    MessageSptr pMsg = MakeSharedMessage(sMsgTypeName);
+    assert(pMsg);
+    if (!pMsg->ParseFromString(sData))
+        return LuaRef(L, nullptr);
+    return MsgToTbl(*L).Convert(*pMsg);
+}

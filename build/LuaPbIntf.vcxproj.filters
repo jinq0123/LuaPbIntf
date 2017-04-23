@@ -50,6 +50,9 @@
     <ClInclude Include="..\src\detail\MessageSptr.h">
       <Filter>src\detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\detail\MsgToTbl.h">
+      <Filter>src\detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp">
@@ -65,6 +68,9 @@
       <Filter>src\detail</Filter>
     </ClCompile>
     <ClCompile Include="..\src\detail\MessageSetter.cpp">
+      <Filter>src\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\detail\MsgToTbl.cpp">
       <Filter>src\detail</Filter>
     </ClCompile>
   </ItemGroup>

@@ -55,40 +55,44 @@ int luaopen_luapbintf_c(lua_State* L)
             [pImpl](const string& sMsgTypeName, const LuaRef& luaTable) {
                 pImpl->Encode(sMsgTypeName, luaTable);
             })
+        .addFunction("decode",
+            [L, pImpl](const string& sMsgTypeName, const string& sData) {
+                return pImpl->Decode(L, sMsgTypeName, sData);
+            })
 
-        .beginClass<Message>("Message")
-            .addFactory([pImpl](const string& sTypeName) {
-                    return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
-                })
-            // XXX New(), MergeFrom(), CopyFrom()
-            .addFunction("debug_string", &Message::DebugString)
-            .addFunction("short_debug_string", &Message::ShortDebugString)
-            .addFunction("utf8_debug_string", &Message::Utf8DebugString)
-            .addFunction("utf8_debug_string", &Message::Utf8DebugString)
-            .addPropertyReadOnly("type_name", &Message::GetTypeName)
-            .addFunction("clear", &Message::Clear)
-            .addPropertyReadOnly("is_initialized", &Message::IsInitialized)
-            .addPropertyReadOnly("byte_size", &Message::ByteSizeLong)
+        //.beginClass<Message>("Message")
+        //    .addFactory([pImpl](const string& sTypeName) {
+        //            return pImpl->MakeSharedMessage(sTypeName);  // maybe nullptr
+        //        })
+        //    // XXX New(), MergeFrom(), CopyFrom()
+        //    .addFunction("debug_string", &Message::DebugString)
+        //    .addFunction("short_debug_string", &Message::ShortDebugString)
+        //    .addFunction("utf8_debug_string", &Message::Utf8DebugString)
+        //    .addFunction("utf8_debug_string", &Message::Utf8DebugString)
+        //    .addPropertyReadOnly("type_name", &Message::GetTypeName)
+        //    .addFunction("clear", &Message::Clear)
+        //    .addPropertyReadOnly("is_initialized", &Message::IsInitialized)
+        //    .addPropertyReadOnly("byte_size", &Message::ByteSizeLong)
 
-            // MessageLite API
-            .addFunction("parse", &Message::ParseFromString)
-            .addFunction("parse_partial", &Message::ParsePartialFromString)
-            .addFunction("serialize", &Message::SerializeAsString)
-            .addFunction("serialize_partial", &Message::SerializePartialAsString)
+        //    // MessageLite API
+        //    .addFunction("parse", &Message::ParseFromString)
+        //    .addFunction("parse_partial", &Message::ParsePartialFromString)
+        //    .addFunction("serialize", &Message::SerializeAsString)
+        //    .addFunction("serialize_partial", &Message::SerializePartialAsString)
 
-            // Read and modify the fields of the Message dynamically
-            .addFunction("get_field",
-                [L](const Message* pMsg, const string& sField) {
-                    return MessageGetField(L, *pMsg, sField);
-                })
-            .addFunction("set_field",
-                [](Message* pMsg, const string& sField,
-                        const LuaRef& luaValue) {
-                    assert(pMsg);
-                    MessageSetter(*pMsg).SetField(sField, luaValue);
-                })
+        //    // Read and modify the fields of the Message dynamically
+        //    .addFunction("get_field",
+        //        [L](const Message* pMsg, const string& sField) {
+        //            return MessageGetField(L, *pMsg, sField);
+        //        })
+        //    .addFunction("set_field",
+        //        [](Message* pMsg, const string& sField,
+        //                const LuaRef& luaValue) {
+        //            assert(pMsg);
+        //            MessageSetter(*pMsg).SetField(sField, luaValue);
+        //        })
 
-        .endClass()  // Message
+        //.endClass()  // Message
 
         ;  // LuaBinding(mod)
     mod.pushToStack();

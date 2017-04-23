@@ -99,6 +99,7 @@
     <ClInclude Include="..\src\detail\MessageGetField.h" />
     <ClInclude Include="..\src\detail\MessageSetter.h" />
     <ClInclude Include="..\src\detail\MessageSptr.h" />
+    <ClInclude Include="..\src\detail\MsgToTbl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\LuaPbIntf.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp" />
     <ClCompile Include="..\src\detail\MessageGetField.cpp" />
     <ClCompile Include="..\src\detail\MessageSetter.cpp" />
+    <ClCompile Include="..\src\detail\MsgToTbl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\luapbintf\detail\message_metatable.lua" />

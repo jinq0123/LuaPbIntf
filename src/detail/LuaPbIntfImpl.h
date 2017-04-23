@@ -5,9 +5,9 @@
 
 #include <memory>  // for unique_ptr<>
 #include <string>
-#include <tuple>
 
 class ErrorCollector;
+struct lua_State;
 
 namespace LuaIntf {
 class LuaRef;
@@ -32,6 +32,7 @@ public:
 
 public:
     using string = std::string;
+    using LuaRef = LuaIntf::LuaRef;
 
     // e.g. AddProtoPath("proto")
     // e.g. AddProtoPath("d:/proto")
@@ -43,16 +44,20 @@ public:
 
     MessageSptr MakeSharedMessage(const string& sTypeName) const;
 
-    std::string Encode(const std::string& sMsgTypeName,
-        const LuaIntf::LuaRef& luaTable) const;
+    string Encode(const string& sMsgTypeName, const LuaRef& luaTable) const;
+
+    // Return lua table.
+    LuaRef Decode(lua_State* L, const string& sMsgTypeName,
+        const string& sData) const;
 
 private:
     using DiskSourceTree = google::protobuf::compiler::DiskSourceTree;
+    using Importer = google::protobuf::compiler::Importer;
+    using MsgFactory = google::protobuf::DynamicMessageFactory;
+
     std::unique_ptr<DiskSourceTree> m_pDiskSourceTree;
     std::unique_ptr<ErrorCollector> m_pErrorCollector;
-    using Importer = google::protobuf::compiler::Importer;
     std::unique_ptr<Importer> m_pImporter;
-    using MsgFactory = google::protobuf::DynamicMessageFactory;
     std::unique_ptr<MsgFactory> m_pMsgFactory;
 };  // class LuaPbIntfImpl
 
