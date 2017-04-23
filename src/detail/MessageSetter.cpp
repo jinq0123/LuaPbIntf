@@ -209,8 +209,6 @@ void MessageSetter::AddToRepeatedField(
         pField->CppTypeName(eCppType) + " of " + pField->full_name());
 }
 
-// XXX Extract CheckFieldValueType(pField, luaValue)
-
 void MessageSetter::AddToMapField(const FieldDescriptor& field,
     const LuaRef& key, const LuaRef& val)
 {
