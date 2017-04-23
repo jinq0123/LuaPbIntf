@@ -25,11 +25,24 @@
 	+ returns nil
 	+ e.g. `map_path("bar", "foo/bar")`
 
-* `luapbintf.compile_proto_file(proto_file)`
-	+ Compile the given file to a FileDescriptor.
+* `luapbintf.import_proto_file(proto_file)`
+	+ Import the given file to a FileDescriptor.
+		- Dependencies are imported automatically.
 	+ `proto_file` {string}: a proto file name
 		- Must be relative to proto paths
-	+ returns {true, ""} | {false, string}
-	+ e.g. `assert(pb.compile_proto_file("foo.proto"))`
+	+ returns nil
+	+ e.g. `import_proto_file("foo.proto")`
 
+* `luapbintf.encode(message_type_name, tbl)`
+	+ Encode message table to string.
+	+ `message_type_name` {string} 
+	+ `tbl` {table} message table
+	+ returns {string}
+	+ e.g. `encode("test.TestMsg", {})`
 
+* `luapbintf.decode(message_type_name, data)`
+	+ Decode string to message table.
+	+ `message_type_name` {string}
+	+ `data` {string} encoded message string
+	+ returns {table} message table
+	+ e.g. `decode("test.TestMsg", "")`
