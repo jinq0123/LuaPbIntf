@@ -1,4 +1,4 @@
-#include "MessageGetField.h"
+#include "GetMessageField.h"
 
 #include "MessageSptr.h"  // for MessageSptr
 
@@ -141,28 +141,25 @@ LuaRef GetRepeatedField(lua_State* L,
 
 }  // namespace
 
-LuaRef MessageGetField(lua_State* L,
-    const Message& msg, const std::string& sField)
+LuaRef MessageGetField(lua_State& rLuaState,
+    const Message& msg, const FieldDescriptor& field)
 {
-    assert(L);
-
     const Descriptor* pDesc = msg.GetDescriptor();
     assert(pDesc);
-    const FieldDescriptor* pField = pDesc->FindFieldByName(sField);
-    if (!pField)
-        throw LuaException("Message " + msg.GetTypeName() + " has no field: " + sField);
     const Reflection* pRefl = msg.GetReflection();
     if (!pRefl)
-        throw LuaException("Message has no reflection.");
+        throw LuaException("Message " + msg.GetTypeName() + " has no reflection.");
 
-    if (pField->is_repeated())
+    if (field.is_repeated())
     {
         // returns (TableRef, "") or (nil, error_string)
-        return GetRepeatedField(L, msg, pField);
+        return GetRepeatedField(rLuaState, msg, field);
     }
 
     using Fd = FieldDescriptor;
-    Fd::CppType eCppType = pField->cpp_type();
+    const Fd* pField = &field;
+    lua_State* L = &rLuaState;
+    Fd::CppType eCppType = field.cpp_type();
     switch (eCppType)
     {
     // Scalar field always has a default value.
@@ -194,7 +191,5 @@ LuaRef MessageGetField(lua_State* L,
     }
     // Unknown field type CPPTYPE_UNKNOWN of Message.Field
     throw LuaException(string("Unknown field type ") +
-        pField->CppTypeName(eCppType) + " of " +
-        msg.GetTypeName() + "." + sField);
+        field.CppTypeName(eCppType) + " of " + field.full_name());
 }
-

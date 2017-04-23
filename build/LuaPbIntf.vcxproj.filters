@@ -38,10 +38,10 @@
     <ClInclude Include="..\src\detail\Encoder.h">
       <Filter>src\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\detail\LuaPbIntfImpl.h">
+    <ClInclude Include="..\src\detail\GetMessageField.h">
       <Filter>src\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\detail\MessageGetField.h">
+    <ClInclude Include="..\src\detail\LuaPbIntfImpl.h">
       <Filter>src\detail</Filter>
     </ClInclude>
     <ClInclude Include="..\src\detail\MessageSetter.h">
@@ -61,10 +61,10 @@
     <ClCompile Include="..\src\detail\Encoder.cpp">
       <Filter>src\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp">
+    <ClCompile Include="..\src\detail\GetMessageField.cpp">
       <Filter>src\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\detail\MessageGetField.cpp">
+    <ClCompile Include="..\src\detail\LuaPbIntfImpl.cpp">
       <Filter>src\detail</Filter>
     </ClCompile>
     <ClCompile Include="..\src\detail\MessageSetter.cpp">

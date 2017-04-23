@@ -1,7 +1,4 @@
 #include "detail/LuaPbIntfImpl.h"
-#include "detail/MessageGetField.h"
-#include "detail/MessageSetter.h"
-#include "detail/Encoder.h"
 
 #include <google/protobuf/message.h>
 #include <LuaIntf/LuaIntf.h>
