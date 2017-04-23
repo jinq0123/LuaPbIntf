@@ -3,8 +3,6 @@ Lua Protobuf interface.
 
 Binding Protobuf to Lua53 with lua-intf.
 
-NOT READY!
-
 LuaPbIntf is inspired by [luapb](https://github.com/zhanjunxiong/luapb),
   but has been rewritten to take advantage of
   [lua-intf](https://github.com/SteveKChiu/lua-intf),
@@ -13,6 +11,10 @@ LuaPbIntf is inspired by [luapb](https://github.com/zhanjunxiong/luapb),
 LuaPbIntf will dynamic load Protocol Buffer message definition files .proto
   without code generation.
 
+## Build
+Use VS2015 build/LuaPbIntf.sln, or build/Makefile.
+
+Output lubpbintf.dll or lubpbintf.so is in build/bin.
 
 ## Run test
 See [test/READMD.md](test/READMD.md)
