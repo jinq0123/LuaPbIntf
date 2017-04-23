@@ -89,10 +89,22 @@ LuaRef MsgToTbl::GetRepeatedField(const FieldDescriptor& field) const
 
     LuaRef tbl = LuaRef::createTable(&m_rLuaState);
     int nFldSize = m_pRefl->FieldSize(m_msg, &field);
+    if (!field.is_map())
+    {
+        for (int index = 0; index < nFldSize; ++index)
+            tbl[index + 1] = GetRepeatedFieldElement(field, index);
+        return tbl;
+    }
+
+    // map
+    assert(field.cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE);
     for (int index = 0; index < nFldSize; ++index)
     {
-        // XXX support map
-        tbl[index + 1] = GetRepeatedFieldElement(field, index);
+        const Message& entryMsg = m_pRefl->GetRepeatedMessage(m_msg, &field, index);
+        const LuaRef& entryTbl = MsgToTbl(m_rLuaState, entryMsg).ToTbl();
+        const LuaRef& key = entryTbl["key"];
+        const LuaRef& value = entryTbl["value"];
+        tbl[key] = value;
     }
     return tbl;
 }
@@ -129,8 +141,11 @@ LuaRef MsgToTbl::GetRepeatedFieldElement(
     case Fd::CPPTYPE_STRING:
         return LuaRefValue(L, m_pRefl->GetRepeatedString(m_msg, &field, index));
     case Fd::CPPTYPE_MESSAGE:
-        // Support map entry element.
-        return LuaRefValue(L, m_pRefl->GetRepeatedMessage(m_msg, &field, index));
+        {
+            const Message& subMsg = m_pRefl->GetRepeatedMessage(
+                m_msg, &field, index);
+            return MsgToTbl(*L, subMsg).ToTbl();
+        }
     default:
         break;
     }
