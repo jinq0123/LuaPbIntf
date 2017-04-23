@@ -29,9 +29,12 @@ public:
     void SetMsg(const LuaRef& luaTable);
 
 private:
-    void SetRepeatedField(const google::protobuf::FieldDescriptor& field,
+    using FieldDescriptor = google::protobuf::FieldDescriptor;
+    void SetRepeatedField(const FieldDescriptor& field,
         const LuaRef& luaTable);
-    void SetRepeatedField(const google::protobuf::FieldDescriptor& field,
+    void AddToRepeatedField(const FieldDescriptor& field,
+        const LuaRef& luaValue);
+    void AddToMapField(const FieldDescriptor& field,
         const LuaRef& key, const LuaRef& val);
 
 private:

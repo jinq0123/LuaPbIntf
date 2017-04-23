@@ -109,7 +109,7 @@ void MessageSetter::SetMsg(const LuaRef& luaTable)
     }
 }
 
-// Support map.
+// Support map. luaTable is an array or a map in lua table.
 void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
     const LuaRef& luaTable)
 {
@@ -119,22 +119,36 @@ void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
         throw LuaException("Field " + field.full_name() +
             " expects a table but got a " + luaTable.typeName());
     }
-    // XXX field->is_map()
+
+    if (!field.is_map())
+    {
+        int len = luaTable.len();
+        for (int index = 1; index <= len; ++index)
+        {
+            const LuaRef& val = luaTable[index];
+            AddToRepeatedField(field, val);
+        }
+        return;
+    }
+
+    // XXX extract function
+
+    // Support map.
     const auto itrEnd = luaTable.end();
     for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
     {
         const LuaRef& key = itr.key();
         const LuaRef& val = itr.value();
-        // XXX need index...
-        SetRepeatedField(field, key, val);
+        AddToMapField(field, key, val);
     }
 }
 
-// Support map.
-void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
-    const LuaRef& luaKey, const LuaRef& luaValue)
+// Add value to repeated field. Non-map-entry.
+void MessageSetter::AddToRepeatedField(
+    const FieldDescriptor& field, const LuaRef& luaValue)
 {
     assert(field.is_repeated());
+    assert(!field.is_map());
 
     using Fd = FieldDescriptor;
     const Fd* pField = &field;
@@ -142,38 +156,37 @@ void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
     switch (eCppType)
     {
     case Fd::CPPTYPE_INT32:
-        m_pRefl->SetRepeatedInt32(&m_rMsg, pField, luaValue.toValue<int32>());
+        m_pRefl->AddInt32(&m_rMsg, pField, luaValue.toValue<int32>());
         return;
     case Fd::CPPTYPE_INT64:
-        m_pRefl->SetRepeatedInt64(&m_rMsg, pField, luaValue.toValue<int64>());
+        m_pRefl->AddInt64(&m_rMsg, pField, luaValue.toValue<int64>());
         return;
     case Fd::CPPTYPE_UINT32:
-        m_pRefl->SetRepeatedUInt32(&m_rMsg, pField, luaValue.toValue<uint32>());
+        m_pRefl->AddUInt32(&m_rMsg, pField, luaValue.toValue<uint32>());
         return;
     case Fd::CPPTYPE_UINT64:
-        m_pRefl->SetRepeatedUInt64(&m_rMsg, pField, luaValue.toValue<uint64>());
+        m_pRefl->AddUInt64(&m_rMsg, pField, luaValue.toValue<uint64>());
         return;
     case Fd::CPPTYPE_DOUBLE:
-        m_pRefl->SetRepeatedDouble(&m_rMsg, pField, luaValue.toValue<double>());
+        m_pRefl->AddDouble(&m_rMsg, pField, luaValue.toValue<double>());
         return;
     case Fd::CPPTYPE_FLOAT:
-        m_pRefl->SetRepeatedFloat(&m_rMsg, pField, luaValue.toValue<float>());
+        m_pRefl->AddFloat(&m_rMsg, pField, luaValue.toValue<float>());
         return;
     case Fd::CPPTYPE_BOOL:
-        m_pRefl->SetRepeatedBool(&m_rMsg, pField, luaValue.toValue<bool>());
+        m_pRefl->AddBool(&m_rMsg, pField, luaValue.toValue<bool>());
         return;
     case Fd::CPPTYPE_ENUM:
         // XXX Support enum name
-        m_pRefl->SetRepeatedEnumValue(&m_rMsg, pField, luaValue.toValue<int>());
+        m_pRefl->AddEnumValue(&m_rMsg, pField, luaValue.toValue<int>());
         return;
     case Fd::CPPTYPE_STRING:
-        m_pRefl->SetRepeatedString(&m_rMsg, pField, luaValue.toValue<string>());
+        m_pRefl->AddString(&m_rMsg, pField, luaValue.toValue<string>());
         return;
     case Fd::CPPTYPE_MESSAGE:
-        // XXX
         if (luaValue.isTable())
         {
-            Message* pSubMsg = m_pRefl->MutableMessage(&m_rMsg, pField);
+            Message* pSubMsg = m_pRefl->AddMessage(&m_rMsg, pField);
             assert(pSubMsg);
             MessageSetter(*pSubMsg).SetMsg(luaValue);
             return;
@@ -187,4 +200,19 @@ void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
     throw LuaException(string("Unknown field type ") +
         pField->CppTypeName(eCppType) + " of " + pField->full_name());
 }
+
+// XXX Extract CheckFieldValueType(pField, luaValue)
+
+void MessageSetter::AddToMapField(const FieldDescriptor& field,
+    const LuaRef& key, const LuaRef& val)
+{
+    assert(field.is_repeated());
+    assert(field.is_map());
+    assert(field.cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE);
+    Message* pMapEntry = m_pRefl->AddMessage(&m_rMsg, &field);
+    assert(pMapEntry);
+    MessageSetter setter(*pMapEntry);
+    setter.SetField("key", key);
+    setter.SetField("value", val);
+}  // AddToMapField
 
