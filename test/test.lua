@@ -1,28 +1,16 @@
-local pb = require("luapbintf.luapbintf")
+local pb = require("luapbintf")
 
 -- test.proto imports common.proto
 pb.import_proto_file("test.proto")
 
-assert(pb.message("test.CommonMsg"))
-assert(pb.message("test.TestMsg"))
-
-local msg = {}
-msg.uid = 12345
-assert(msg.uid == 12345)
-msg.param = 9876
-msg.name = "Jin Qing"
-msg.names = {"n1", "n2", "n3"}
-
---for i = 1, msg.param2:len() do
---    local value = msg.param2:get(i)
---    print("i: " .. i .. " value: " .. value)
---end
-
---msg.param2[1] = "test"
---print("===== param2: " .. msg.param2:get(1))
-
---msg.param2:set(2, "test2")
---print("===== param2: " .. msg.param2:get(2))
+local msg = {
+    uid = 12345,
+    param = 9876,
+    name = "Jin Qing",
+    names = {"n1", "n2", "n3"},
+    cmd = 10,
+    common_msg = {},
+}
 
 local sz = pb.encode("test.TestMsg", msg)
 assert(#sz)
@@ -37,5 +25,7 @@ assert(#msg2.names == 3)
 local n3 = msg2.names[3]
 -- Maybe reordered.
 assert(n3 == "n1" or n3 == "n2" or n3 == "n3")
+assert(10 == msg2.cmd)
+assert(msg2.common)
 
 print("Test OK!")

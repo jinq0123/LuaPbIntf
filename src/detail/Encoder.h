@@ -37,4 +37,3 @@ private:
 };  // class Encoder
 
 #endif  // DETAIL_ENCODER_H
-

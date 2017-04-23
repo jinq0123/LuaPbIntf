@@ -1,4 +1,3 @@
 copy ..\build\bin\Debug\luapbintf.dll
-xcopy /E /y ..\luapbintf luapbintf\
 
 pause

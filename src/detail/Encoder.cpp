@@ -10,11 +10,6 @@
 #include <iostream>
 #include "MessageSetter.h"
 
-namespace LuaIntf
-{
-    LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
-}
-
 using namespace LuaIntf;
 using google::protobuf::Message;
 using std::string;
