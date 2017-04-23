@@ -5,7 +5,7 @@
 #include <google/protobuf/message.h>  // for Message
 #include <google/protobuf/descriptor.pb.h>  // for map_entry()
 
-#include <iostream>
+#include <iostream>  // for cout
 
 using namespace google::protobuf;
 using LuaIntf::LuaException;
@@ -101,9 +101,9 @@ void MessageSetter::SetMsg(const LuaRef& luaTable)
     {
         const LuaRef& key = itr.key();
         if (LuaIntf::LuaTypeID::STRING != key.type())
-            continue;
+            continue;  // Skip non-string key.
         const string& sKey = key.toValue<string>();
-        std::cout << sKey << std::endl;  // DEL
+        // std::cout << sKey << std::endl;
         const LuaRef& val = itr.value();
         SetField(sKey, val);
     }

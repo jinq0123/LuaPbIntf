@@ -37,6 +37,14 @@
 	+ Encode message table to string.
 	+ `message_type_name` {string} 
 	+ `tbl` {table} message table
+		- Non-exist field will error
+			```
+			> pb.encode("test.TestMsg", {abcd = 123})
+			stdin:1: Message test.TestMsg has no field: abcd
+			```
+		- Non-string index is allowed and is ingored.
+			* `pb.encode("test.TestMsg", {[print]=123})` is same as
+			  `pb.encode("test.TestMsg", {})`
 	+ returns {string}
 	+ e.g. `encode("test.TestMsg", {})`
 
