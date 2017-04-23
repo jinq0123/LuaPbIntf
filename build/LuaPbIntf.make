@@ -67,9 +67,9 @@ endif
 OBJECTS := \
 	$(OBJDIR)/LuaPbIntf.o \
 	$(OBJDIR)/Encoder.o \
-	$(OBJDIR)/FieldSetter.o \
 	$(OBJDIR)/LuaPbIntfImpl.o \
 	$(OBJDIR)/MessageGetField.o \
+	$(OBJDIR)/MessageSetter.o \
 
 RESOURCES := \
 
@@ -133,13 +133,13 @@ $(OBJDIR)/LuaPbIntf.o: ../src/LuaPbIntf.cpp
 $(OBJDIR)/Encoder.o: ../src/detail/Encoder.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/FieldSetter.o: ../src/detail/FieldSetter.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LuaPbIntfImpl.o: ../src/detail/LuaPbIntfImpl.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/MessageGetField.o: ../src/detail/MessageGetField.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/MessageSetter.o: ../src/detail/MessageSetter.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

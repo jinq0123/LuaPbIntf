@@ -1,4 +1,4 @@
-#include "FieldSetter.h"
+#include "MessageSetter.h"
 
 #include <LuaIntf/LuaIntf.h>
 #include <google/protobuf/descriptor.h>  // for Descriptor

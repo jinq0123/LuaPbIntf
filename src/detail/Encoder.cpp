@@ -8,7 +8,7 @@
 #include <google/protobuf/message.h>  // for Message
 
 #include <iostream>
-#include "FieldSetter.h"
+#include "MessageSetter.h"
 
 namespace LuaIntf
 {
