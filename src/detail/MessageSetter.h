@@ -32,6 +32,8 @@ private:
     using FieldDescriptor = google::protobuf::FieldDescriptor;
     void SetRepeatedField(const FieldDescriptor& field,
         const LuaRef& luaTable);
+    void SetRepeatedMapField(const FieldDescriptor& field,
+        const LuaRef& luaTable);
     void AddToRepeatedField(const FieldDescriptor& field,
         const LuaRef& luaValue);
     void AddToMapField(const FieldDescriptor& field,

@@ -120,20 +120,28 @@ void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
             " expects a table but got a " + luaTable.typeName());
     }
 
-    if (!field.is_map())
+    if (field.is_map())
     {
-        int len = luaTable.len();
-        for (int index = 1; index <= len; ++index)
-        {
-            const LuaRef& val = luaTable[index];
-            AddToRepeatedField(field, val);
-        }
+        SetRepeatedMapField(field, luaTable);
         return;
     }
 
-    // XXX extract function
+    // non-map
+    int len = luaTable.len();
+    for (int index = 1; index <= len; ++index)
+    {
+        const LuaRef& val = luaTable[index];
+        AddToRepeatedField(field, val);
+    }
+}
 
-    // Support map.
+void MessageSetter::SetRepeatedMapField(const FieldDescriptor& field,
+    const LuaRef& luaTable)
+{
+    assert(field.is_repeated());
+    assert(field.is_map());
+    assert(luaTable.isTable());
+
     const auto itrEnd = luaTable.end();
     for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
     {
