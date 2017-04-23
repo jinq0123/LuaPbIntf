@@ -24,8 +24,12 @@ public:
     }
 
 public:
-    void SetField(google::protobuf::Message* pMsg,
-        const std::string& sField, const LuaIntf::LuaRef& luaValue);
+    using Message = google::protobuf::Message;
+    using LuaRef = LuaIntf::LuaRef;
+    using string = std::string;
+
+    void SetMsgField(Message& rMsg, const string& sField, const LuaRef& luaValue);
+    void SetMsg(Message& rMsg, const LuaRef& luaTable);
 
 private:
     // To make Encoder for sub-message.

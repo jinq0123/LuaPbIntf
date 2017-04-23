@@ -63,17 +63,7 @@ MessageSptr Encoder::EncodeToMessage(const string& sMsgTypeName,
     MessageSptr pMsg = GetMessageSptr(sMsgTypeName, luaTable);
     assert(pMsg);
     FieldSetter fieldSetter(m_luaPbIntfImpl);
-    const auto itrEnd = luaTable.end();
-    for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
-    {
-        const LuaRef& key = itr.key();
-        if (LuaTypeID::STRING != key.type())
-            continue;
-        const string& sKey = key.toValue<string>();
-        std::cout << sKey << std::endl;  // DEL
-        const LuaRef& val = itr.value();
-        fieldSetter.SetField(pMsg.get(), sKey, val);
-    }
+    fieldSetter.SetMsg(*pMsg, luaTable);
     return pMsg;
 }  // EncodeToMessage()
 

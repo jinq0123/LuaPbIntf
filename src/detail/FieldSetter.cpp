@@ -3,22 +3,22 @@
 #include <LuaIntf/LuaIntf.h>
 #include <google/protobuf/descriptor.h>  // for Descriptor
 #include <google/protobuf/message.h>  // for Message
-#include "google/protobuf/descriptor.pb.h"  // for map_entry()
+#include <google/protobuf/descriptor.pb.h>  // for map_entry()
 
-using namespace LuaIntf;
+#include <iostream>
+
 using namespace google::protobuf;
-using namespace std;
+using LuaIntf::LuaException;
 
-void FieldSetter::SetField(Message* pMsg,
-    const std::string& sField, const LuaRef& luaValue)
+void FieldSetter::SetMsgField(Message& rMsg,
+    const string& sField, const LuaRef& luaValue)
 {
-    assert(pMsg);
-    const Descriptor* pDesc = pMsg->GetDescriptor();
+    const Descriptor* pDesc = rMsg.GetDescriptor();
     assert(pDesc);
     const FieldDescriptor* pField = pDesc->FindFieldByName(sField);
     if (!pField)
-        throw LuaException("Message " + pMsg->GetTypeName() + " has no field: " + sField);
-    const Reflection* pRefl = pMsg->GetReflection();
+        throw LuaException("Message " + rMsg.GetTypeName() + " has no field: " + sField);
+    const Reflection* pRefl = rMsg.GetReflection();
     if (!pRefl)
         throw LuaException("Message has no reflection.");
 
@@ -33,32 +33,32 @@ void FieldSetter::SetField(Message* pMsg,
     switch (eCppType)
     {
     case Fd::CPPTYPE_INT32:
-        pRefl->SetInt32(pMsg, pField, luaValue.toValue<int32>());
+        pRefl->SetInt32(&rMsg, pField, luaValue.toValue<int32>());
         return;
     case Fd::CPPTYPE_INT64:
-        pRefl->SetInt64(pMsg, pField, luaValue.toValue<int64>());
+        pRefl->SetInt64(&rMsg, pField, luaValue.toValue<int64>());
         return;
     case Fd::CPPTYPE_UINT32:
-        pRefl->SetUInt32(pMsg, pField, luaValue.toValue<uint32>());
+        pRefl->SetUInt32(&rMsg, pField, luaValue.toValue<uint32>());
         return;
     case Fd::CPPTYPE_UINT64:
-        pRefl->SetUInt64(pMsg, pField, luaValue.toValue<uint64>());
+        pRefl->SetUInt64(&rMsg, pField, luaValue.toValue<uint64>());
         return;
     case Fd::CPPTYPE_DOUBLE:
-        pRefl->SetDouble(pMsg, pField, luaValue.toValue<double>());
+        pRefl->SetDouble(&rMsg, pField, luaValue.toValue<double>());
         return;
     case Fd::CPPTYPE_FLOAT:
-        pRefl->SetFloat(pMsg, pField, luaValue.toValue<float>());
+        pRefl->SetFloat(&rMsg, pField, luaValue.toValue<float>());
         return;
     case Fd::CPPTYPE_BOOL:
-        pRefl->SetBool(pMsg, pField, luaValue.toValue<bool>());
+        pRefl->SetBool(&rMsg, pField, luaValue.toValue<bool>());
         return;
     case Fd::CPPTYPE_ENUM:
         // XXX Support enum name
-        pRefl->SetEnumValue(pMsg, pField, luaValue.toValue<int>());
+        pRefl->SetEnumValue(&rMsg, pField, luaValue.toValue<int>());
         return;
     case Fd::CPPTYPE_STRING:
-        pRefl->SetString(pMsg, pField, luaValue.toValue<string>());
+        pRefl->SetString(&rMsg, pField, luaValue.toValue<string>());
         return;
     case Fd::CPPTYPE_MESSAGE:
         // XXX
@@ -68,5 +68,21 @@ void FieldSetter::SetField(Message* pMsg,
     // Unknown field type CPPTYPE_UNKNOWN of Message.Field
     throw LuaException(string("Unknown field type ") +
         pField->CppTypeName(eCppType) + " of " +
-        pMsg->GetTypeName() + "." + sField);
+        rMsg.GetTypeName() + "." + sField);
+}
+
+void FieldSetter::SetMsg(Message& rMsg, const LuaRef& luaTable)
+{
+    assert(luaTable.isTable());
+    const auto itrEnd = luaTable.end();
+    for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
+    {
+        const LuaRef& key = itr.key();
+        if (LuaIntf::LuaTypeID::STRING != key.type())
+            continue;
+        const string& sKey = key.toValue<string>();
+        std::cout << sKey << std::endl;  // DEL
+        const LuaRef& val = itr.value();
+        SetMsgField(rMsg, sKey, val);
+    }
 }
