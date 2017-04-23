@@ -102,5 +102,5 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     assert(pMsg);
     if (!pMsg->ParseFromString(sData))
         return LuaRef(L, nullptr);
-    return MsgToTbl(*L).Convert(*pMsg);
+    return MsgToTbl(*L, *pMsg).ToTbl();
 }
