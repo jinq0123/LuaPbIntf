@@ -85,8 +85,6 @@ MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName) const
     return MessageSptr(pProtoType->New());
 }
 
-// luaTable may be a normal table,
-// or a message proxy table which has a C++ MessageSptr object,
 std::string LuaPbIntfImpl::Encode(const string& sMsgTypeName,
     const LuaRef& luaTable) const
 {
