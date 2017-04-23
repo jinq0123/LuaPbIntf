@@ -5,7 +5,10 @@
 
 namespace google {
 namespace protobuf {
+class Descriptor;
+class FieldDescriptor;
 class Message;
+class Reflection;
 }  // namespace protobuf
 }  // namespace google
 
@@ -16,10 +19,7 @@ class LuaRef;
 class MessageSetter final
 {
 public:
-    using Message = google::protobuf::Message;
-    explicit MessageSetter(Message& rMsg) : m_rMsg(rMsg)
-    {
-    }
+    explicit MessageSetter(google::protobuf::Message& rMsg);
 
 public:
     using LuaRef = LuaIntf::LuaRef;
@@ -29,7 +29,13 @@ public:
     void SetMsg(const LuaRef& luaTable);
 
 private:
-    Message& m_rMsg;
+    void SetRepeatedField(const google::protobuf::FieldDescriptor& field,
+        const LuaRef& luaValue);
+
+private:
+    google::protobuf::Message& m_rMsg;
+    const google::protobuf::Descriptor* m_pDesc;  // = m_rMsg.GetDescriptor();
+    const google::protobuf::Reflection* m_pRefl;  // = m_rMsg.GetReflection();
 };  // class MessageSetter
 
 #endif  // DETAIL_MESSAGESETTER_H
