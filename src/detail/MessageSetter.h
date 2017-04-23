@@ -30,7 +30,9 @@ public:
 
 private:
     void SetRepeatedField(const google::protobuf::FieldDescriptor& field,
-        const LuaRef& luaValue);
+        const LuaRef& luaTable);
+    void SetRepeatedField(const google::protobuf::FieldDescriptor& field,
+        const LuaRef& key, const LuaRef& val);
 
 private:
     google::protobuf::Message& m_rMsg;

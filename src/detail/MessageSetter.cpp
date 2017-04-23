@@ -109,15 +109,82 @@ void MessageSetter::SetMsg(const LuaRef& luaTable)
     }
 }
 
-// XXX support map.
+// Support map.
 void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
-    const LuaRef& luaValue)
+    const LuaRef& luaTable)
 {
     assert(field.is_repeated());
-    if (!luaValue.isTable())
+    if (!luaTable.isTable())
     {
         throw LuaException("Field " + field.full_name() +
-            " expects a table but got a " + luaValue.typeName());
+            " expects a table but got a " + luaTable.typeName());
     }
-    // XXX
+    // XXX field->is_map()
+    const auto itrEnd = luaTable.end();
+    for (auto itr = luaTable.begin(); itr != itrEnd; ++itr)
+    {
+        const LuaRef& key = itr.key();
+        const LuaRef& val = itr.value();
+        // XXX need index...
+        SetRepeatedField(field, key, val);
+    }
 }
+
+// Support map.
+void MessageSetter::SetRepeatedField(const FieldDescriptor& field,
+    const LuaRef& luaKey, const LuaRef& luaValue)
+{
+    assert(field.is_repeated());
+
+    using Fd = FieldDescriptor;
+    const Fd* pField = &field;
+    Fd::CppType eCppType = field.cpp_type();
+    switch (eCppType)
+    {
+    case Fd::CPPTYPE_INT32:
+        m_pRefl->SetRepeatedInt32(&m_rMsg, pField, luaValue.toValue<int32>());
+        return;
+    case Fd::CPPTYPE_INT64:
+        m_pRefl->SetRepeatedInt64(&m_rMsg, pField, luaValue.toValue<int64>());
+        return;
+    case Fd::CPPTYPE_UINT32:
+        m_pRefl->SetRepeatedUInt32(&m_rMsg, pField, luaValue.toValue<uint32>());
+        return;
+    case Fd::CPPTYPE_UINT64:
+        m_pRefl->SetRepeatedUInt64(&m_rMsg, pField, luaValue.toValue<uint64>());
+        return;
+    case Fd::CPPTYPE_DOUBLE:
+        m_pRefl->SetRepeatedDouble(&m_rMsg, pField, luaValue.toValue<double>());
+        return;
+    case Fd::CPPTYPE_FLOAT:
+        m_pRefl->SetRepeatedFloat(&m_rMsg, pField, luaValue.toValue<float>());
+        return;
+    case Fd::CPPTYPE_BOOL:
+        m_pRefl->SetRepeatedBool(&m_rMsg, pField, luaValue.toValue<bool>());
+        return;
+    case Fd::CPPTYPE_ENUM:
+        // XXX Support enum name
+        m_pRefl->SetRepeatedEnumValue(&m_rMsg, pField, luaValue.toValue<int>());
+        return;
+    case Fd::CPPTYPE_STRING:
+        m_pRefl->SetRepeatedString(&m_rMsg, pField, luaValue.toValue<string>());
+        return;
+    case Fd::CPPTYPE_MESSAGE:
+        // XXX
+        if (luaValue.isTable())
+        {
+            Message* pSubMsg = m_pRefl->MutableMessage(&m_rMsg, pField);
+            assert(pSubMsg);
+            MessageSetter(*pSubMsg).SetMsg(luaValue);
+            return;
+        }
+        throw LuaException("Field " + pField->full_name() +
+            " expects a table but got a " + luaValue.typeName());
+    default:
+        break;
+    }
+    // Unknown field type CPPTYPE_UNKNOWN of Message.Field
+    throw LuaException(string("Unknown field type ") +
+        pField->CppTypeName(eCppType) + " of " + pField->full_name());
+}
+
