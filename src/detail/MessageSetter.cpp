@@ -60,7 +60,15 @@ void MessageSetter::SetField(const string& sField, const LuaRef& luaValue)
         pRefl->SetString(&m_rMsg, pField, luaValue.toValue<string>());
         return;
     case Fd::CPPTYPE_MESSAGE:
-        // XXX
+        if (luaValue.isTable())
+        {
+            Message* pSubMsg = pRefl->MutableMessage(&m_rMsg, pField);
+            assert(pSubMsg);
+            MessageSetter(*pSubMsg).SetMsg(luaValue);
+            return;
+        }
+        throw LuaException(m_rMsg.GetTypeName() + "." + sField +
+            " expects a table but got a " + luaValue.typeName());
     default:
         break;
     }
