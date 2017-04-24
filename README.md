@@ -11,6 +11,10 @@ LuaPbIntf is inspired by [luapb](https://github.com/zhanjunxiong/luapb),
 LuaPbIntf will dynamic load Protocol Buffer message definition files .proto
   without code generation.
 
+LuaPbIntf use lua table to present Message,
+ `encode()` to encode lua message table to string,
+ and `decode()` to decode string to lua message table.
+
 ## Build
 Use VS2015 build/LuaPbIntf.sln, or build/Makefile.
 
