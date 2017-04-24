@@ -25,6 +25,14 @@ function M.test_repeated()
     assert("n3" == msg2.names[3])  -- Maybe reordered.
 end  -- test_repeated()
 
+function M.test_default_value()
+    local msg2 = pb.decode("test.TestMsg", "")
+    assert(nil == msg2.common_msg)
+    print(msg2.cmd)
+    assert(0 == msg2.cmd)
+    assert(#msg2.names == 0)
+end
+
 function M.test_many_fields()
     local msg = {
         uid = 12345,
@@ -53,6 +61,7 @@ function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
     M.test_repeated()
+    M.test_default_value()
     M.test_many_fields()
     print("Test all OK!")
 end  -- test_all
