@@ -194,7 +194,7 @@ function M.test_all()
     M.test_oneof_none()
     M.test_oneof_both()
     M.test_oneof_default_value()
-    print("Test all OK!")
+    print("Test OK!")
 end  -- test_all
 
 M.test_all()
