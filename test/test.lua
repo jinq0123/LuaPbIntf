@@ -134,6 +134,22 @@ function M.test_map_index_convert()
     assert(msg2.msgs["key"])
 end  -- test_map_index_convert()
 
+function M.test_oneof_name()
+    local msg = { name2 = "Jin Qing" }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name2 == "Jin Qing")
+    assert(msg2.msg2 == nil)
+end  -- test.oneof_name()
+
+function M.test_oneof_msg()
+    local msg = { msg2 = {} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name2 == nil)
+    assert(msg2.msg2)
+end  -- test.oneof_msg()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -150,6 +166,8 @@ function M.test_all()
     M.test_packed()
     M.test_map()
     M.test_map_index_convert()
+    M.test_oneof_name()
+    M.test_oneof_msg()
     print("Test all OK!")
 end  -- test_all
 

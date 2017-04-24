@@ -29,4 +29,8 @@ message TestMsg
     double d = 8;
     repeated int32 samples = 9 [packed=true];
     map<string, CommonMsg> msgs = 10;
+    oneof test_oneof {
+        string name2 = 11;
+        CommonMsg msg2 = 12;
+    }
 };
