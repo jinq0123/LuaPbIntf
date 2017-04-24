@@ -39,14 +39,17 @@ public:
     void AddProtoPath(const string& sProtoPath);
     void MapPath(const string& sVirtualPath, const string& sDiskPath);
 
+    // Input file must be relative to proto paths.
     // e.g. ImportProtoFile("bar/foo.proto")
     void ImportProtoFile(const string& sProtoFile);
 
+    // Make a dynamic Message.
     MessageSptr MakeSharedMessage(const string& sTypeName) const;
 
+    // Encode lua table to string.
     string Encode(const string& sMsgTypeName, const LuaRef& luaTable) const;
 
-    // Return lua table.
+    // Decode string to lua message table. Return a lua table.
     LuaRef Decode(lua_State* L, const string& sMsgTypeName,
         const string& sData) const;
 

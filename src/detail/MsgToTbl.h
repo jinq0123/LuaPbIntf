@@ -15,7 +15,7 @@ class FieldDescriptor;
 }  // namespace protobuf
 }  // namespace google
 
-// Message to lua table convertor.
+// Message to lua table converter.
 class MsgToTbl final
 {
 public:

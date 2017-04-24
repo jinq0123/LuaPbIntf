@@ -15,7 +15,7 @@
 
 using namespace LuaIntf;
 
-// See CommandLineInterface::Run().
+// See protobuf CommandLineInterface::Run().
 
 class ErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector
 {

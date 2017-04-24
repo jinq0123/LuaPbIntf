@@ -21,15 +21,16 @@ __declspec(dllexport)
 #endif
 int luaopen_luapbintf(lua_State* L)
 {
-    using string = std::string;
-    using Message = google::protobuf::Message;
-    using namespace LuaIntf;
+    using std::string;
+    using google::protobuf::Message;
+    using LuaIntf::LuaRef;
 
     auto pImpl = std::make_shared<LuaPbIntfImpl>();
     LuaRef mod = LuaRef::createTable(L);
-    LuaBinding(mod)
+    LuaIntf::LuaBinding(mod)
         .addFunction("test", &test)
 
+        // See doc/reference.md
         .addFunction("add_proto_path",
             [pImpl](const string& sProtoPath) {
                 pImpl->AddProtoPath(sProtoPath);
@@ -38,7 +39,6 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sVirtualPath, const string& sDiskPath) {
                 pImpl->MapPath(sVirtualPath, sDiskPath);
             })
-        // Input file must be relative to proto paths.
         .addFunction("import_proto_file",
             [pImpl](const string& sProtoFile) {
                 pImpl->ImportProtoFile(sProtoFile);
