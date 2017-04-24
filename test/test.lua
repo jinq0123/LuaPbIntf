@@ -32,6 +32,24 @@ function M.test_default_value()
     assert(#msg2.names == 0)
 end
 
+function M.test_type_convertion()
+    local msg = { uid = "12345" }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).uid == 12345)
+end  -- test_type_convertion()
+
+function M.test_string_enum()
+    local msg = { cmd = "CMD_TYPE_CHECK" }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).cmd == 2)
+end  -- test_string_enum()
+
+function M.test_s1234_enum()
+    local msg = { cmd = "1234" }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).cmd == 1234)
+end  -- test_string_enum()
+
 function M.test_many_fields()
     local msg = {
         uid = 12345,
@@ -61,6 +79,9 @@ function M.test_all()
     M.test_encode_decode()
     M.test_repeated()
     M.test_default_value()
+    M.test_type_convertion()
+    M.test_string_enum()
+    M.test_s1234_enum()
     M.test_many_fields()
     print("Test all OK!")
 end  -- test_all

@@ -39,6 +39,8 @@ private:
         const LuaRef& luaValue);
     void AddToMapField(const FieldDescriptor& field,
         const LuaRef& key, const LuaRef& val);
+    int GetEnumValue(const LuaRef& luaValue,
+        const FieldDescriptor& field) const;
 
 private:
     google::protobuf::Message& m_rMsg;

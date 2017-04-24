@@ -69,8 +69,8 @@ void MessageSetter::SetField(const string& sField, const LuaRef& luaValue)
         m_pRefl->SetBool(&m_rMsg, pField, luaValue.toValue<bool>());
         return;
     case Fd::CPPTYPE_ENUM:
-        // XXX Support enum name
-        m_pRefl->SetEnumValue(&m_rMsg, pField, luaValue.toValue<int>());
+        // Support enum name.
+        m_pRefl->SetEnumValue(&m_rMsg, pField, GetEnumValue(luaValue, *pField));
         return;
     case Fd::CPPTYPE_STRING:
         m_pRefl->SetString(&m_rMsg, pField, luaValue.toValue<string>());
@@ -159,54 +159,53 @@ void MessageSetter::AddToRepeatedField(
     assert(!field.is_map());
 
     using Fd = FieldDescriptor;
-    const Fd* pField = &field;
     Fd::CppType eCppType = field.cpp_type();
     switch (eCppType)
     {
     case Fd::CPPTYPE_INT32:
-        m_pRefl->AddInt32(&m_rMsg, pField, luaValue.toValue<int32>());
+        m_pRefl->AddInt32(&m_rMsg, &field, luaValue.toValue<int32>());
         return;
     case Fd::CPPTYPE_INT64:
-        m_pRefl->AddInt64(&m_rMsg, pField, luaValue.toValue<int64>());
+        m_pRefl->AddInt64(&m_rMsg, &field, luaValue.toValue<int64>());
         return;
     case Fd::CPPTYPE_UINT32:
-        m_pRefl->AddUInt32(&m_rMsg, pField, luaValue.toValue<uint32>());
+        m_pRefl->AddUInt32(&m_rMsg, &field, luaValue.toValue<uint32>());
         return;
     case Fd::CPPTYPE_UINT64:
-        m_pRefl->AddUInt64(&m_rMsg, pField, luaValue.toValue<uint64>());
+        m_pRefl->AddUInt64(&m_rMsg, &field, luaValue.toValue<uint64>());
         return;
     case Fd::CPPTYPE_DOUBLE:
-        m_pRefl->AddDouble(&m_rMsg, pField, luaValue.toValue<double>());
+        m_pRefl->AddDouble(&m_rMsg, &field, luaValue.toValue<double>());
         return;
     case Fd::CPPTYPE_FLOAT:
-        m_pRefl->AddFloat(&m_rMsg, pField, luaValue.toValue<float>());
+        m_pRefl->AddFloat(&m_rMsg, &field, luaValue.toValue<float>());
         return;
     case Fd::CPPTYPE_BOOL:
-        m_pRefl->AddBool(&m_rMsg, pField, luaValue.toValue<bool>());
+        m_pRefl->AddBool(&m_rMsg, &field, luaValue.toValue<bool>());
         return;
     case Fd::CPPTYPE_ENUM:
-        // XXX Support enum name
-        m_pRefl->AddEnumValue(&m_rMsg, pField, luaValue.toValue<int>());
+        // Support enum name.
+        m_pRefl->AddEnumValue(&m_rMsg, &field, GetEnumValue(luaValue, field));
         return;
     case Fd::CPPTYPE_STRING:
-        m_pRefl->AddString(&m_rMsg, pField, luaValue.toValue<string>());
+        m_pRefl->AddString(&m_rMsg, &field, luaValue.toValue<string>());
         return;
     case Fd::CPPTYPE_MESSAGE:
         if (luaValue.isTable())
         {
-            Message* pSubMsg = m_pRefl->AddMessage(&m_rMsg, pField);
+            Message* pSubMsg = m_pRefl->AddMessage(&m_rMsg, &field);
             assert(pSubMsg);
             MessageSetter(*pSubMsg).SetMsg(luaValue);
             return;
         }
-        throw LuaException("Field " + pField->full_name() +
+        throw LuaException("Field " + field.full_name() +
             " expects a table but got a " + luaValue.typeName());
     default:
         break;
     }
     // Unknown field type CPPTYPE_UNKNOWN of Message.Field
     throw LuaException(string("Unknown field type ") +
-        pField->CppTypeName(eCppType) + " of " + pField->full_name());
+        field.CppTypeName(eCppType) + " of " + field.full_name());
 }
 
 void MessageSetter::AddToMapField(const FieldDescriptor& field,
@@ -222,3 +221,20 @@ void MessageSetter::AddToMapField(const FieldDescriptor& field,
     setter.SetField("value", val);
 }  // AddToMapField
 
+// Try to convert lua string to enum value.
+// If lua value is not string or not enum string, get int.
+int MessageSetter::GetEnumValue(const LuaRef& luaValue,
+    const FieldDescriptor& field) const
+{
+    if (luaValue.type() != LuaIntf::LuaTypeID::STRING)
+        return luaValue.toValue<int>();
+
+    std::string sEnum = luaValue.toValue<string>();
+    assert(field.cpp_type() == FieldDescriptor::CPPTYPE_ENUM);
+    const EnumDescriptor* pEnum = field.enum_type();
+    assert(pEnum);
+      // Looks up a value by name.  Returns NULL if no such value exists.
+    const EnumValueDescriptor* pEnumVal = pEnum->FindValueByName(sEnum);
+    if (pEnumVal) return pEnumVal->number();
+    return luaValue.toValue<int>();  // "123" -> 123
+}
