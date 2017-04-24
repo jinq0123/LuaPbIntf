@@ -42,8 +42,8 @@ LuaRef MsgToTbl::ToTbl() const
     // Set oneof fields.
     for (const OneofDescriptor* pOneof : oneofDescSet)
     {
-        const FieldDescriptor* pField = m_pRefl->GetOneofFieldDescriptor(
-            m_msg, pOneof);
+        const FieldDescriptor* pField = m_pRefl->
+            GetOneofFieldDescriptor(m_msg, pOneof);
         if (pField)
             tbl[pField->name()] = GetField(*pField);
     }
