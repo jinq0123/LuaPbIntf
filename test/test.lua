@@ -150,6 +150,21 @@ function M.test_oneof_msg()
     assert(msg2.msg2)
 end  -- test.oneof_msg()
 
+function M.test_oneof_none()
+    local s = pb.encode("test.TestMsg", {})
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name2 == nil)
+    assert(msg2.msg2 == nil)
+end  -- test.oneof_none()
+
+function M.test_oneof_both()
+    local msg = { name2 = "", msg2 = {} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name2 or msg2.msg2)
+    assert(msg2.name2 == nil or msg2.msg2 == nil)
+end  -- test.oneof_both()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -168,6 +183,8 @@ function M.test_all()
     M.test_map_index_convert()
     M.test_oneof_name()
     M.test_oneof_msg()
+    M.test_oneof_none()
+    M.test_oneof_both()
     print("Test all OK!")
 end  -- test_all
 
