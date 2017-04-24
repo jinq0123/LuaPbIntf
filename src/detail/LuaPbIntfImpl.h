@@ -15,8 +15,9 @@ class LuaRef;
 
 namespace google {
 namespace protobuf {
-class Message;
 class DynamicMessageFactory;
+class Message;
+class MethodDescriptor;
 namespace compiler {
 class DiskSourceTree;
 class Importer;
@@ -52,6 +53,16 @@ public:
     // Decode string to lua message table. Return a lua table.
     LuaRef Decode(lua_State* L, const string& sMsgTypeName,
         const string& sData) const;
+
+    // Get RPC request or response message type.
+    string GetRpcRequestType(const string& sServiceName,
+        const string& sMethodName) const;
+    string GetRpcResponseType(const string& sServiceName,
+        const string& sMethodName) const;
+
+private:
+    const google::protobuf::MethodDescriptor& FindRpcMethod(
+        const string& sServiceName, const string& sMethodName) const;
 
 private:
     using DiskSourceTree = google::protobuf::compiler::DiskSourceTree;

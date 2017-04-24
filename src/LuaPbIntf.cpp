@@ -51,6 +51,14 @@ int luaopen_luapbintf(lua_State* L)
             [L, pImpl](const string& sMsgTypeName, const string& sData) {
                 return pImpl->Decode(L, sMsgTypeName, sData);
             })
+        .addFunction("get_rpc_request_type",
+            [pImpl](const string& sServiceName, const string& sMethodName) {
+                return pImpl->GetRpcRequestType(sServiceName, sMethodName);
+            })
+        .addFunction("get_rpc_response_type",
+            [pImpl](const string& sServiceName, const string& sMethodName) {
+                return pImpl->GetRpcResponseType(sServiceName, sMethodName);
+            })
         ;  // LuaBinding(mod)
 
     mod.pushToStack();

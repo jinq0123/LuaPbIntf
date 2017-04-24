@@ -8,16 +8,18 @@
 #include <LuaIntf/LuaState.h>
 
 #include <google/protobuf/compiler/importer.h>  // for DiskSourceTree
+#include <google/protobuf/descriptor.h>  // for Descriptor
 #include <google/protobuf/dynamic_message.h>  // for GetPrototype()
 #include <google/protobuf/message.h>  // for Message
 
 #include <sstream>  // for ostringstream
 
 using namespace LuaIntf;
+using namespace google::protobuf;
 
 // See protobuf CommandLineInterface::Run().
 
-class ErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector
+class ErrorCollector : public compiler::MultiFileErrorCollector
 {
 public:
     void Clear() { m_sError.clear(); }
@@ -68,19 +70,17 @@ void LuaPbIntfImpl::MapPath(
 void LuaPbIntfImpl::ImportProtoFile(const string& sProtoFile)
 {
     m_pErrorCollector->Clear();
-    const google::protobuf::FileDescriptor* pDesc =
-        m_pImporter->Import(sProtoFile);
+    const FileDescriptor* pDesc = m_pImporter->Import(sProtoFile);
     if (pDesc) return;
     throw LuaException("Failed to import: " + m_pErrorCollector->GetError());
 }
 
 MessageSptr LuaPbIntfImpl::MakeSharedMessage(const string& sTypeName) const
 {
-    const google::protobuf::Descriptor* pDesc =
-        m_pImporter->pool()->FindMessageTypeByName(sTypeName);
+    const Descriptor* pDesc = m_pImporter->pool()->
+        FindMessageTypeByName(sTypeName);
     if (!pDesc) throw LuaException("No message type: " + sTypeName);
-    const google::protobuf::Message* pProtoType =
-        m_pMsgFactory->GetPrototype(pDesc);
+    const Message* pProtoType = m_pMsgFactory->GetPrototype(pDesc);
     if (!pProtoType) throw LuaException("No prototype for " + sTypeName);
     return MessageSptr(pProtoType->New());
 }
@@ -105,3 +105,28 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
         return LuaRef(L, nullptr);
     return MsgToTbl(*L, *pMsg).ToTbl();
 }
+
+std::string LuaPbIntfImpl::GetRpcRequestType(const string& sServiceName,
+    const string& sMethodName) const
+{
+    return FindRpcMethod(sServiceName, sMethodName).input_type()->full_name();
+}
+
+std::string LuaPbIntfImpl::GetRpcResponseType(const string& sServiceName,
+    const string& sMethodName) const
+{
+    return FindRpcMethod(sServiceName, sMethodName).output_type()->full_name();
+}
+
+const MethodDescriptor& LuaPbIntfImpl::FindRpcMethod(
+    const string& sServiceName, const string& sMethodName) const
+{
+    const ServiceDescriptor* pDesc = m_pImporter->pool()->
+        FindServiceByName(sServiceName);
+    if (!pDesc) throw LuaException("No such service: " + sServiceName);
+    const MethodDescriptor* pMethod = pDesc->FindMethodByName(sMethodName);
+    if (pMethod) return *pMethod;
+    throw LuaException("No such method: " + sServiceName + "." + sMethodName);
+}
+
+
