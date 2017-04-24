@@ -3,6 +3,9 @@ local pb = require("luapbintf")
 -- test.proto imports common.proto
 pb.import_proto_file("test.proto")
 
+assert(pb.get_rpc_input_name("test.Test", "Foo") == "test.TestMsg")
+assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")
+
 local msg = {
     uid = 12345,
     param = 9876,

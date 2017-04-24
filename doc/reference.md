@@ -60,10 +60,10 @@
 	+ service_name {string}
 	+ method_name {string}
 	+ returns {string}
-	+ e.g. `assert(get_rpc_input_name("test.Test", "Foo") == "test.TestMsg")`
+	+ e.g. `assert(pb.get_rpc_input_name("test.Test", "Foo") == "test.TestMsg")`
 * `luapbintf.get_rpc_output_name(service_name, method_name)`
 	+ Get rpc service method output message type full name.
 	+ service_name {string}
 	+ method_name {string}
 	+ returns {string}
-	+ e.g. `assert(get_rpc_out_name("test.Test", "Foo") == "test.Common")`
+	+ e.g. `assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")`
