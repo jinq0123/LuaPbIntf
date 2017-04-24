@@ -43,3 +43,4 @@
 /test/luapbintf.lua
 /build/LuaPbIntf.sdf
 /test/luapbintf
+/test/inspect.lua

@@ -27,4 +27,5 @@ message TestMsg
     CommonMsg common_msg = 6;
     int32 n32 = 7;
     double d = 8;
+    repeated int32 samples = 9 [packed=true];
 };

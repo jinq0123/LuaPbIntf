@@ -19,7 +19,6 @@ project "LuaPbIntf"
     files {
         "../src/**.h",
         "../src/**.cpp",
-        "../luapbintf/**.lua",
         "../test/test.lua",
         "../test/*.proto",
     }

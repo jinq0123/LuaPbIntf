@@ -105,8 +105,12 @@ function M.test_many_fields()
     assert(msg2.common_msg)
 end  -- test_encode_decode()
 
---local enum_value = pb.getEnumValue("lm.Cmd", "CMD_TYPE_USER")
---print(enum_value)
+function M.test_packed()
+    local msg = { samples = {1,2,3} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(#msg2.samples == 3)
+end  -- test.packed()
 
 function M.test_all()
     M.test_rpc()
@@ -121,6 +125,7 @@ function M.test_all()
     M.test_string_enum()
     M.test_s1234_enum()
     M.test_many_fields()
+    M.test_packed()
     print("Test all OK!")
 end  -- test_all
 
