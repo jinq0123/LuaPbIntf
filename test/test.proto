@@ -4,6 +4,11 @@ package test;
 
 import "common.proto";
 
+service Test
+{
+	rpc Foo(TestMsg) returns (CommonMsg);
+}
+
 enum CmdType
 {
     CMD_TYPE_UNKNOWN = 0;
