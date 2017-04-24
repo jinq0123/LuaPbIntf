@@ -146,6 +146,7 @@ function M.test_oneof_msg()
     local msg = { msg2 = {} }
     local s = pb.encode("test.TestMsg", msg)
     local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name == "")
     assert(msg2.name2 == nil)
     assert(msg2.msg2)
 end  -- test.oneof_msg()

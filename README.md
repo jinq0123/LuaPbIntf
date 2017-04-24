@@ -31,6 +31,8 @@ Output lubpbintf.dll or lubpbintf.so is in build/bin.
 See [test/READMD.md](test/READMD.md)
 
 ## Example
+
+### Encode and Decode
 ```lua
 local pb = require("luapbintf")
 
@@ -43,13 +45,23 @@ local msg2 = pb.decode("test.TestMsg", sz)
 assert(msg2.uid == 12345)
 ```  
 
-### Map Example
+### Map field
 ```lua
 local msgs = {}
 msgs["k1"] = {}
 msgs["k2"] = {}
 local msg = { msgs = msgs }
 pb.encode("test.TestMsg", msgs)
+```
+
+### Oneof field
+```lua
+    local msg = { msg2 = {} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name == "")
+    assert(msg2.name2 == nil)
+    assert(msg2.msg2)
 ```
  
 ## Type Convertion
