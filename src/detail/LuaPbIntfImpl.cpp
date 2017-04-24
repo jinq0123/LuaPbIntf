@@ -101,9 +101,13 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     assert(L);
     MessageSptr pMsg = MakeSharedMessage(sMsgTypeName);
     assert(pMsg);
-    if (!pMsg->ParseFromString(sData))
-        return LuaRef(L, nullptr);
-    return MsgToTbl(*L, *pMsg).ToTbl();
+    if (pMsg->ParseFromString(sData))
+        return MsgToTbl(*L, *pMsg).ToTbl();
+
+    std::ostringstream oss;
+    oss << "Can not decode string(len=" << sData.length() << ") to message "
+        << pMsg->GetTypeName();
+    throw LuaException(oss.str());
 }
 
 std::string LuaPbIntfImpl::GetRpcInputName(const string& sServiceName,
