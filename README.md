@@ -15,6 +15,13 @@ LuaPbIntf use lua table to present Message,
  `encode()` to encode lua message table to string,
  and `decode()` to decode string to lua message table.
 
+## Differ from luapb
+* Support proto3
+* Support service
+* Support to specify the directory in which to search for imports.
+* luapb skips some types such as: TYPE_SFIXED32.
+  See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
+
 ## Build
 Use VS2015 build/LuaPbIntf.sln, or build/Makefile.
 
@@ -23,13 +30,6 @@ Output lubpbintf.dll or lubpbintf.so is in build/bin.
 ## Run test
 See [test/READMD.md](test/READMD.md)
 
-## Differ from luapb
-* Support proto3
-* Support service
-* Support to specify the directory in which to search for imports.
-* luapb skips some types such as: TYPE_SFIXED32.
-  See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
-  
 ## Example
 ```
 local pb = require("luapbintf")
