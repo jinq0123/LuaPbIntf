@@ -50,8 +50,7 @@ assert(msg2.uid == 12345)
 local msgs = {}
 msgs["k1"] = {}
 msgs["k2"] = {}
-local msg = { msgs = msgs }
-pb.encode("test.TestMsg", msgs)
+pb.encode("test.TestMsg", { msgs = msgs })
 ```
 
 ### Oneof field
