@@ -10,7 +10,6 @@ class LuaRef;
 namespace google {
 namespace protobuf {
 class Message;
-// DEL class Descriptor;
 class Reflection;
 class FieldDescriptor;
 }  // namespace protobuf
@@ -39,7 +38,6 @@ private:
 private:
     lua_State& m_rLuaState;
     const google::protobuf::Message& m_msg;
-    // DEL const google::protobuf::Descriptor* m_pDesc;  // = msg.GetDescriptor();
     const google::protobuf::Reflection* m_pRefl;  // = msg.GetReflection();
 };
 

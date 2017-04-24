@@ -10,12 +10,8 @@ using namespace google::protobuf;
 MsgToTbl::MsgToTbl(lua_State& rLuaState, const Message& msg)
     : m_rLuaState(rLuaState),
     m_msg(msg),
-    // DEL m_pDesc(msg.GetDescriptor()),
     m_pRefl(msg.GetReflection())
 {
-    // DEL
-    //if (!m_pDesc)
-    //    throw LuaException("Message " + msg.GetTypeName() + " has no descriptor.");
     if (!m_pRefl)
         throw LuaException("Message " + msg.GetTypeName() + " has no reflection.");
 }

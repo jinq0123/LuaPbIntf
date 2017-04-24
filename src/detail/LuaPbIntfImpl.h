@@ -1,5 +1,5 @@
-#ifndef LUAPBINTFIMPL_H
-#define LUAPBINTFIMPL_H
+#ifndef DETAIL_LUAPBINTFIMPL_H
+#define DETAIL_LUAPBINTFIMPL_H
 
 #include "MessageSptr.h"  // for MessageSptr
 
@@ -61,4 +61,4 @@ private:
     std::unique_ptr<MsgFactory> m_pMsgFactory;
 };  // class LuaPbIntfImpl
 
-#endif  // LUAPBINTFIMPL_H
+#endif  // DETAIL_LUAPBINTFIMPL_H

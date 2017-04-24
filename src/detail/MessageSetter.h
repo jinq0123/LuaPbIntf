@@ -16,6 +16,7 @@ namespace LuaIntf {
 class LuaRef;
 }  // namespace LuaIntf
 
+// To set the message or message field.
 class MessageSetter final
 {
 public:
