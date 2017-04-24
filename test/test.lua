@@ -25,6 +25,14 @@ function M.test_repeated()
     assert("n3" == msg2.names[3])  -- Maybe reordered.
 end  -- test_repeated()
 
+-- Array table will ignore other index.
+function M.test_repeated_ignore()
+    local msg = { names = {"n1", "n2", "n3", [0] = "n1", [100] = "n100"} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(#msg2.names == 3)
+end  -- test_repeated_ignore()
+
 function M.test_default_value()
     local msg2 = assert(pb.decode("test.TestMsg", ""))
     assert(nil == msg2.common_msg)
@@ -32,11 +40,37 @@ function M.test_default_value()
     assert(#msg2.names == 0)
 end
 
-function M.test_type_convertion()
+function M.test_type_convertion_s2n()
     local msg = { uid = "12345" }
     local s = pb.encode("test.TestMsg", msg)
     assert(pb.decode("test.TestMsg", s).uid == 12345)
-end  -- test_type_convertion()
+end  -- test_type_convertion_s2n()
+
+function M.test_type_convertion_n2s()
+    local msg = { name = 12345 }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).name == "12345")
+end  -- test_type_convertion_n2s()
+
+function M.test_type_convertion_n2n()
+    local msg = { n32 = 4294967296 + 123 }
+    assert(msg.n32 == 4294967296 + 123)
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.n32 == 123)
+end  -- test_type_convertion_n2n()
+
+function M.test_type_convertion_s2d()
+    local msg = { d = "12345e-67" }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).d == 12345e-67)
+end  -- test_type_convertion_s2d()
+
+function M.test_type_convertion_f2n()
+    local msg = { n32 = 1.0 }
+    local s = pb.encode("test.TestMsg", msg)
+    assert(pb.decode("test.TestMsg", s).d == 12345e-67)
+end  -- test_type_convertion_s2d()
 
 function M.test_string_enum()
     local msg = { cmd = "CMD_TYPE_CHECK" }
@@ -78,8 +112,12 @@ function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
     M.test_repeated()
+    M.test_repeated_ignore()
     M.test_default_value()
-    M.test_type_convertion()
+    M.test_type_convertion_s2n()
+    M.test_type_convertion_n2s()
+    M.test_type_convertion_n2n()
+    M.test_type_convertion_s2d()
     M.test_string_enum()
     M.test_s1234_enum()
     M.test_many_fields()

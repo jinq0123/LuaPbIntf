@@ -25,4 +25,6 @@ message TestMsg
     repeated string names = 4;
     CmdType cmd = 5;
     CommonMsg common_msg = 6;
+    int32 n32 = 7;
+    double d = 8;
 };
