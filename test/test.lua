@@ -10,10 +10,18 @@ end  -- test_rpc()
 
 local function test_encode_decode()
     local msg = { uid = 12345 }
-    local sz = pb.encode("test.TestMsg", msg)
-    local msg2 = pb.decode("test.TestMsg", sz)
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
     assert(msg2.uid == 12345)
 end  -- test_encode_decode()
+
+local function test_repeated()
+    local msg = { names = {"n1", "n2", "n3"} }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(#msg2.names == 3)
+    assert("n3" == msg2.names[3])  -- Maybe reordered.
+end  -- test_repeated()
 
 local function test_many_fields()
     local msg = {
@@ -25,11 +33,8 @@ local function test_many_fields()
         common_msg = {},
     }
 
-    local sz = pb.encode("test.TestMsg", msg)
-    assert(#sz)
-    
-    local msg2 = pb.decode("test.TestMsg", sz)
-    assert(msg2.uid == 12345)
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
     assert(msg2.name == "Jin Qing")
     assert(#msg2.names == 3)
     local n3 = msg2.names[3]
@@ -44,5 +49,6 @@ end  -- test_encode_decode()
 
 test_rpc()
 test_encode_decode()
+test_repeated()
 test_many_fields()
 print("Test OK!")
