@@ -158,12 +158,19 @@ function M.test_oneof_none()
 end  -- test.oneof_none()
 
 function M.test_oneof_both()
-    local msg = { name2 = "", msg2 = {} }
+    local msg = { name2 = "abc", msg2 = {} }
     local s = pb.encode("test.TestMsg", msg)
     local msg2 = pb.decode("test.TestMsg", s)
     assert(msg2.name2 or msg2.msg2)
     assert(msg2.name2 == nil or msg2.msg2 == nil)
 end  -- test.oneof_both()
+
+function M.test_oneof_default_value()
+    local msg = { name2 = "" }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.name2 == "")
+end  -- test_oneof_default_value()
 
 function M.test_all()
     M.test_rpc()
@@ -185,6 +192,7 @@ function M.test_all()
     M.test_oneof_msg()
     M.test_oneof_none()
     M.test_oneof_both()
+    M.test_oneof_default_value()
     print("Test all OK!")
 end  -- test_all
 
