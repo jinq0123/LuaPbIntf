@@ -112,6 +112,28 @@ function M.test_packed()
     assert(#msg2.samples == 3)
 end  -- test.packed()
 
+function M.test_map()
+    local msgs = {}
+    msgs["k1"] = {}
+    msgs["k2"] = {}
+    local msg = { msgs = msgs }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.msgs["k1"])
+    assert(msg2.msgs["k2"])
+end  -- test_map()
+
+function M.test_map_index_convert()
+    local msg = { msgs = { {}, {}, ["key"] = {} } }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    -- key 1,2 is converted to "1", "2"
+    assert(msg2.msgs[1] == nil)
+    assert(msg2.msgs["1"])
+    assert(msg2.msgs["2"])
+    assert(msg2.msgs["key"])
+end  -- test_map_index_convert()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -126,6 +148,8 @@ function M.test_all()
     M.test_s1234_enum()
     M.test_many_fields()
     M.test_packed()
+    M.test_map()
+    M.test_map_index_convert()
     print("Test all OK!")
 end  -- test_all
 
