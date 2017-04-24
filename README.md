@@ -82,7 +82,7 @@ Integer will be converted from one type to another.
     assert(msg2.n32 == 123)
 ```
 
-String can convert to integer or float:
+String can be converted to integer or float:
 ```lua
     local msg = { d = "12345e-67" }
     local s = pb.encode("test.TestMsg", msg)
