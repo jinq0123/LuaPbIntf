@@ -4,6 +4,8 @@
 #include <LuaIntf/LuaState.h>  // for LuaException
 #include <google/protobuf/message.h>  // for Message
 
+#include <unordered_set>
+
 using namespace LuaIntf;
 using namespace google::protobuf;
 
@@ -20,14 +22,32 @@ LuaRef MsgToTbl::ToTbl() const
 {
     const Descriptor* pDesc = m_msg.GetDescriptor();
     assert(pDesc);
+    std::unordered_set<const OneofDescriptor*> oneofDescSet;
     LuaRef tbl = LuaRef::createTable(&m_rLuaState);
+
     int nField = pDesc->field_count();
     for (int index = 0; index < nField; ++index)
     {
         const FieldDescriptor* pField = pDesc->field(index);
         assert(pField);
+        const OneofDescriptor* pOneof = pField->containing_oneof();
+        if (pOneof)
+        {
+            oneofDescSet.insert(pOneof);
+            continue;  // Oneof field should not set default value.
+        }
         tbl[pField->name()] = GetField(*pField);
     }
+
+    // Set oneof fields.
+    for (const OneofDescriptor* pOneof : oneofDescSet)
+    {
+        const FieldDescriptor* pField = m_pRefl->GetOneofFieldDescriptor(
+            m_msg, pOneof);
+        if (pField)
+            tbl[pField->name()] = GetField(*pField);
+    }
+
     return tbl;
 }
 
