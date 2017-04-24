@@ -106,13 +106,13 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     return MsgToTbl(*L, *pMsg).ToTbl();
 }
 
-std::string LuaPbIntfImpl::GetRpcRequestType(const string& sServiceName,
+std::string LuaPbIntfImpl::GetRpcInputName(const string& sServiceName,
     const string& sMethodName) const
 {
     return FindRpcMethod(sServiceName, sMethodName).input_type()->full_name();
 }
 
-std::string LuaPbIntfImpl::GetRpcResponseType(const string& sServiceName,
+std::string LuaPbIntfImpl::GetRpcOutputName(const string& sServiceName,
     const string& sMethodName) const
 {
     return FindRpcMethod(sServiceName, sMethodName).output_type()->full_name();

@@ -55,9 +55,9 @@ public:
         const string& sData) const;
 
     // Get RPC request or response message type.
-    string GetRpcRequestType(const string& sServiceName,
+    string GetRpcInputName(const string& sServiceName,
         const string& sMethodName) const;
-    string GetRpcResponseType(const string& sServiceName,
+    string GetRpcOutputName(const string& sServiceName,
         const string& sMethodName) const;
 
 private:
