@@ -18,15 +18,16 @@ MsgToTbl::MsgToTbl(lua_State& rLuaState, const Message& msg)
 
 LuaRef MsgToTbl::ToTbl() const
 {
-    std::vector<const FieldDescriptor*> vFields;
-    m_pRefl->ListFields(m_msg, &vFields);
+    const Descriptor* pDesc = m_msg.GetDescriptor();
+    assert(pDesc);
     LuaRef tbl = LuaRef::createTable(&m_rLuaState);
-    for (const FieldDescriptor* pField : vFields)
+    int nField = pDesc->field_count();
+    for (int index = 0; index < nField; ++index)
     {
+        const FieldDescriptor* pField = pDesc->field(index);
         assert(pField);
         tbl[pField->name()] = GetField(*pField);
     }
-
     return tbl;
 }
 

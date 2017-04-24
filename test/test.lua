@@ -26,9 +26,8 @@ function M.test_repeated()
 end  -- test_repeated()
 
 function M.test_default_value()
-    local msg2 = pb.decode("test.TestMsg", "")
+    local msg2 = assert(pb.decode("test.TestMsg", ""))
     assert(nil == msg2.common_msg)
-    print(msg2.cmd)
     assert(0 == msg2.cmd)
     assert(#msg2.names == 0)
 end
