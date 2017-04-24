@@ -1,6 +1,6 @@
 #include "LuaPbIntfImpl.h"
 
-#include "Encoder.h"
+#include "MessageSetter.h"
 #include "MsgToTbl.h"
 
 // for LuaException
@@ -89,7 +89,10 @@ std::string LuaPbIntfImpl::Encode(const string& sMsgTypeName,
     const LuaRef& luaTable) const
 {
     luaTable.checkTable();  // Bad argument #-1 to 'encode' (table expected, got number)
-    return Encoder(*this).Encode(sMsgTypeName, luaTable);
+    MessageSptr pMsg = MakeSharedMessage(sMsgTypeName);
+    assert(pMsg);
+    MessageSetter(*pMsg).SetMsg(luaTable);
+    return pMsg->SerializeAsString();
 }  // Encode()
 
 LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
