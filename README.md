@@ -24,7 +24,10 @@ LuaPbIntf use lua table to present Message,
 
 ## Build
 Init third_party dir first, see [thirdy_party/README.md](thirdy_party/README.md).
-Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build.
+Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build. e.g.
+
+	make config=release
+
 Output lubpbintf.dll or lubpbintf.so is in build/bin.
 
 ## Run test

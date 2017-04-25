@@ -14,6 +14,7 @@ project "LuaPbIntf"
     targetname "luapbintf"
     language "C++"
     flags {
+        "C++11",
         "StaticRuntime",  -- for protobuf
     }
     files {
