@@ -28,7 +28,7 @@ Use VS2015 build/LuaPbIntf.sln, or build/Makefile.
 Output lubpbintf.dll or lubpbintf.so is in build/bin.
 
 ## Run test
-See [test/READMD.md](test/READMD.md)
+See [test/README.md](test/README.md)
 
 ## Example
 
