@@ -1,7 +1,7 @@
 # LuaPbIntf
 Lua Protobuf interface.
 
-Binding Protobuf to Lua53 with lua-intf.
+Binding Protobuf to Lua with lua-intf, supporting lua53 and proto3.
 
 LuaPbIntf is inspired by [luapb](https://github.com/zhanjunxiong/luapb),
   but has been rewritten to take advantage of
