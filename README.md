@@ -45,6 +45,12 @@ local msg2 = pb.decode("test.TestMsg", sz)
 assert(msg2.uid == 12345)
 ```  
 
+### Rpc
+```lua
+    assert(pb.get_rpc_input_name("test.Test", "Foo") == "test.TestMsg")
+    assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")
+```
+
 ### Map field
 ```lua
 local msgs = {}
