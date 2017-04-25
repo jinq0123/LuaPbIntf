@@ -23,8 +23,8 @@ LuaPbIntf use lua table to present Message,
   See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
 
 ## Build
-Use VS2015 build/LuaPbIntf.sln, or build/Makefile.
-
+Init third_party dir first, see [thirdy_party/README.md](thirdy_party/README.md).
+Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build.
 Output lubpbintf.dll or lubpbintf.so is in build/bin.
 
 ## Run test
