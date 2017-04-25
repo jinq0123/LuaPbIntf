@@ -51,6 +51,7 @@ public:
     string Encode(const string& sMsgTypeName, const LuaRef& luaTable) const;
 
     // Decode string to lua message table. Return a lua table.
+    // Return nil if parse failed.
     LuaRef Decode(lua_State* L, const string& sMsgTypeName,
         const string& sData) const;
 

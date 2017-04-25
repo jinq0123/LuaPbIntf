@@ -103,11 +103,7 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     assert(pMsg);
     if (pMsg->ParseFromString(sData))
         return MsgToTbl(*L, *pMsg).ToTbl();
-
-    std::ostringstream oss;
-    oss << "Can not decode string(len=" << sData.length() << ") to message "
-        << pMsg->GetTypeName();
-    throw LuaException(oss.str());
+    return LuaRef(L, nullptr);
 }
 
 std::string LuaPbIntfImpl::GetRpcInputName(const string& sServiceName,

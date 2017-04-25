@@ -52,7 +52,9 @@
 	+ Decode string to message table.
 	+ `message_type_name` {string}
 	+ `data` {string} encoded message string
-	+ returns {table} message table
+	+ returns nil | {table}
+		- returns nil if failed to parse message
+		- otherwise returns a message table
 	+ e.g. `decode("test.TestMsg", "")`
 
 * `luapbintf.get_rpc_input_name(service_name, method_name)`

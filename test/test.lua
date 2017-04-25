@@ -173,6 +173,10 @@ function M.test_oneof_default_value()
     assert(msg2.name2 == "")
 end  -- test_oneof_default_value()
 
+function M.test_decode_return_nil()
+    assert(nil == pb.decode("test.TestMsg", "IllegalData"))
+end  -- test_decode_return_nil()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -194,6 +198,7 @@ function M.test_all()
     M.test_oneof_none()
     M.test_oneof_both()
     M.test_oneof_default_value()
+    M.test_decode_return_nil()
     print("Test OK!")
 end  -- test_all
 
