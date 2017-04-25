@@ -118,5 +118,8 @@ read from index 1 to len, ignoring others.
     assert(#msg2.names == 3)
 ```
 
+## Proto2 Extension
+Proto2 extension is not supported, which is replaced by Ayn type in proto3.
+
 ## Reference
 See [doc/reference.md](doc/reference.md).
