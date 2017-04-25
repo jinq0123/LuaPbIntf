@@ -13,7 +13,7 @@ endif
 ifeq ($(config),debug)
   RESCOMP = windres
   TARGETDIR = bin/Debug
-  TARGET = $(TARGETDIR)/libluapbintf.so
+  TARGET = $(TARGETDIR)/luapbintf.so
   OBJDIR = obj/Debug
   DEFINES +=
   INCLUDES += -I../src -I../third_party/lua/src -I../third_party/lua-intf -I../third_party/protobuf/src
@@ -22,7 +22,7 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS) -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -llua -llibprotobufd
+  LIBS += -llibprotobufd
   LDDEPS +=
   ALL_LDFLAGS += $(LDFLAGS) -L../third_party/lib -L../third_party/lib/Debug -shared
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -40,7 +40,7 @@ endif
 ifeq ($(config),release)
   RESCOMP = windres
   TARGETDIR = bin/Release
-  TARGET = $(TARGETDIR)/libluapbintf.so
+  TARGET = $(TARGETDIR)/luapbintf.so
   OBJDIR = obj/Release
   DEFINES += -DNDEBUG
   INCLUDES += -I../src -I../third_party/lua/src -I../third_party/lua-intf -I../third_party/protobuf/src
@@ -49,7 +49,7 @@ ifeq ($(config),release)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS) -std=c++11
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -llua -llibprotobuf
+  LIBS += -llibprotobuf
   LDDEPS +=
   ALL_LDFLAGS += $(LDFLAGS) -L../third_party/lib -L../third_party/lib/Release -s -shared
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)

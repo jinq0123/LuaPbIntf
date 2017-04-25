@@ -12,6 +12,7 @@ workspace "LuaPbIntf"
 project "LuaPbIntf"
     kind "SharedLib"
     targetname "luapbintf"
+    targetprefix ""  -- linux: luapbintf.so
     language "C++"
     flags {
         "C++11",
@@ -32,9 +33,9 @@ project "LuaPbIntf"
     libdirs {
         "../third_party/lib",
     }
-    links {
-        "lua",
-    }
+    filter { "system:windows" }
+        links { "lua" }
+    filter {}
 
     --[[
     From: https://github.com/SteveKChiu/lua-intf
