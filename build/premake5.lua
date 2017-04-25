@@ -33,9 +33,6 @@ project "LuaPbIntf"
     libdirs {
         "../third_party/lib",
     }
-    filter { "system:windows" }
-        links { "lua" }
-    filter {}
 
     --[[
     From: https://github.com/SteveKChiu/lua-intf
@@ -48,10 +45,17 @@ project "LuaPbIntf"
     filter "configurations:Debug"
         flags { "Symbols" }
         libdirs { "../third_party/lib/Debug" }
-        links { "libprotobufd" }
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
         libdirs { "../third_party/lib/Release" }
+    filter { "system:windows" }
+        links { "lua" }
+    filter { "system:windows", "Debug" }
+        links { "libprotobufd" }
+    filter { "system:windows", "Release" }
         links { "libprotobuf" }
+    filter { "system:linux" }
+        links { "protobuf" }
+
 -- End of project "LuaPbIntf"
