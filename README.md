@@ -30,6 +30,10 @@ Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build. e.g.
 
 Output lubpbintf.dll or lubpbintf.so is in build/bin.
 
+On Windows, it is recommended by [google](https://github.com/google/protobuf/tree/master/cmake)
+ that you use static protobuf only.
+On Linux, you may need to recompile libprotobuf.a with -fPIC, or link libprotobuf.so.
+
 ## Run test
 See [test/README.md](test/README.md)
 
