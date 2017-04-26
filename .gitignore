@@ -42,3 +42,4 @@
 /test/inspect.lua
 /test/*.exe
 /test/*.dll
+/test/lua
