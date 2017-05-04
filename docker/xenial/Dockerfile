@@ -68,5 +68,16 @@ RUN \
 #
 RUN /usr/local/bin/lua -l luapbintf
 
+# Cleanup
+#
+RUN cd /usr/local/src \
+    && rm -rf lua-${LUA_VERSION}.tar.gz \
+    && rm -rf lua-${LUA_VERSION} \
+    && rm -rf protobuf-cpp-${PROTOBUF_VERSION}.zip \
+    && rm -rf protobuf-${PROTOBUF_VERSION} \
+    && rm -rf lua-intf-master.zip \
+    && rm -rf /usr/local/src/lua-intf-master \
+    && rm -rf LuaPbIntf-master.zip
+
 #
 CMD [ "lua" ]
