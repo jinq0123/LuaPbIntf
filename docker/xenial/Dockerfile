@@ -1,5 +1,5 @@
-# Dockerfile - LuaPbIntf Ubuntu Xenial
-# https://github.com/jinq0123/LuaPbIntf
+# Dockerfile - vkill/luapbintf for Ubuntu Xenial
+# https://github.com/vkill/LuaPbIntf/tree/docker-xenial/docker
 
 FROM ubuntu:xenial
 
