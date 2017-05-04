@@ -7,7 +7,7 @@ $ docker build -t vkill/luapbintf:xenial --build-arg RESTY_J=4 ./xenial
 ### Usage
 
 ```
-$ docker run -it --rm --name luapbintf_xenial vkill/luapbintf:xenial lua
+$ docker run -it --rm --name luapbintf_xenial vkill/luapbintf:xenial
 
 # Lua 5.3.4  Copyright (C) 1994-2017 Lua.org, PUC-Rio
 # > require 'luapbintf'
