@@ -1,4 +1,4 @@
-### Build
+### Build if you require
 
 ```
 $ docker build -t vkill/luapbintf:xenial --build-arg RESTY_J=4 ./xenial
