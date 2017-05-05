@@ -2,6 +2,13 @@ local M = {}
 
 local pb = require("luapbintf")
 
+function script_path()
+   local str = debug.getinfo(2, "S").source:sub(2)
+   return str:match("(.*/)")
+end
+
+pb.add_proto_path(script_path())
+
 -- test.proto imports common.proto
 pb.import_proto_file("test.proto")
 
