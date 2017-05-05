@@ -2,9 +2,9 @@ local M = {}
 
 local pb = require("luapbintf")
 
-function script_path()
-   local str = debug.getinfo(2, "S").source:sub(2)
-   return str:match("(.*/)")
+local function script_path()
+    local source = debug.getinfo(2, "S").source
+    return source:match("@(.*/)") or ""
 end
 
 pb.add_proto_path(script_path())
