@@ -126,7 +126,7 @@ read from index 1 to len, ignoring others.
 ```
 
 ## Proto2 Extension
-Proto2 extension is not supported, which is replaced by Ayn type in proto3.
+Proto2 extension is not supported, which is replaced by Any type in proto3.
 
 ## Reference
 See [doc/reference.md](doc/reference.md).
