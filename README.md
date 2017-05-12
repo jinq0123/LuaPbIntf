@@ -70,10 +70,10 @@ pb.encode("test.TestMsg", { msgs = msgs })
 ```lua
     local msg = { msg2 = {} }
     local s = pb.encode("test.TestMsg", msg)
-    local msg2 = pb.decode("test.TestMsg", s)
-    assert(msg2.name == "")
-    assert(msg2.name2 == nil)
-    assert(msg2.msg2)
+    local result = pb.decode("test.TestMsg", s)
+    assert(result.name == "")
+    assert(result.name2 == nil)
+    assert(result.msg2)
 ```
  
 ## Type Convertion
