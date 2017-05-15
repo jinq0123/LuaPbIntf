@@ -130,3 +130,10 @@ Proto2 extension is not supported, which is replaced by Any type in proto3.
 
 ## Reference
 See [doc/reference.md](doc/reference.md).
+
+## LNK2019
+```error LNK2019: unresolved external symbol "void __cdecl lua_settop(struct lua_State *,int)" (?lua_settop@@YAXPAUlua_State@@H@Z)```
+Please see issue #2.
+
+By default, it expects the Lua library to build under C++.
+If you really want to use Lua library compiled under C, you can define LUAINTF_LINK_LUA_COMPILED_IN_CXX to 0.
