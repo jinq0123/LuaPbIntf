@@ -34,6 +34,11 @@ On Windows, it is recommended by [google](https://github.com/google/protobuf/tre
  that you use static protobuf only.
 On Linux, you may need to recompile libprotobuf.a with -fPIC, or link libprotobuf.so.
 
+The Makefile is only for linux. 
+Please regenerate Makefile for a different operating system with premake.
+For example:
+```premake5 --os=macosx gmake```
+
 ## Run test
 See [test/README.md](test/README.md)
 
