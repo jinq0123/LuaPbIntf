@@ -18,7 +18,7 @@ LuaPbIntf use lua table to present Message,
 ## Differ from luapb
 * Support proto3
 * Support service
-* Support to specify the directory in which to search for imports.
+* Able to set the proto path
 * luapb skips some types such as: TYPE_SFIXED32.
   See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
 
