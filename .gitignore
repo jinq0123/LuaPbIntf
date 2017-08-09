@@ -43,3 +43,6 @@
 /test/*.exe
 /test/*.dll
 /test/lua
+
+*.pyc
+test_package/build
