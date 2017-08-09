@@ -23,6 +23,16 @@ LuaPbIntf use lua table to present Message,
   See [issue](https://github.com/zhanjunxiong/luapb/issues/10).
 
 ## Build
+
+### Build with conan
+1. Install [conan](http://docs.conan.io/en/latest/installation.html).
+1. `conan remote add remote_bintray_jinq0123 https://api.bintray.com/conan/jinq0123/test`
+1. `conan create user/channel --build missing`
+    * The result `luapbintf.dll`/`luapbintf.so` is in `~/.conan/data/luapbintf/0.1/user/channel/package/`...
+    * Add build settings like:
+        `conan create user/channel --build missing -s arch=x86`
+
+### Without conan (depricated)
 Init third_party dir first, see [thirdy_party/README.md](thirdy_party/README.md).
 Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build. e.g.
 
