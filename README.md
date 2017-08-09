@@ -49,7 +49,7 @@ Please regenerate Makefile for a different operating system with premake.
 For example:
 ```premake5 --os=macosx gmake```
 
-### Link error
+#### Link error
 ```error LNK2019: unresolved external symbol "void __cdecl lua_settop(struct lua_State *,int)" (?lua_settop@@YAXPAUlua_State@@H@Z)```
 
 Please see [issue #2](https://github.com/jinq0123/LuaPbIntf/issues/2).
