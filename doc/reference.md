@@ -4,11 +4,11 @@
 
 * `luapbintf.add_proto_path(proto_path)`
 	+ Add proto path.
-		- Like protoc -IPATH or --proto_path=PATH option,
-		  to specify the directory in which to search for imports.
-		- May add many times to set multiple proto paths,
-		  and directories will be searched in order.
-		- The current working directory is default added before any other path.
+		- Like protoc -IPATH or --proto_path=PATH option.
+		- Specify the directory in which to search for imports.
+		- May add multiple times to set multiple proto paths,
+		  and the directories will be searched in order.
+		- If not given, the current working directory is used.
 		- Same as `map_path("", proto_path)`
 	+ `proto_path` {string}: a proto path
 	+ returns nil
@@ -34,7 +34,7 @@
 
 * `luapbintf.encode(message_type_name, tbl)`
 	+ Encode message table to string.
-	+ `message_type_name` {string} 
+	+ `message_type_name` {string}
 	+ `tbl` {table} message table
 		- Non-exist field will error
 			```
@@ -58,13 +58,13 @@
 
 * `luapbintf.get_rpc_input_name(service_name, method_name)`
 	+ Get rpc service method input message type full name.
-	+ service_name {string}
-	+ method_name {string}
+	+ service_name {string} full service name
+	+ method_name {string} method name
 	+ returns {string}
 	+ e.g. `assert(pb.get_rpc_input_name("test.Test", "Foo") == "test.TestMsg")`
 * `luapbintf.get_rpc_output_name(service_name, method_name)`
 	+ Get rpc service method output message type full name.
-	+ service_name {string}
-	+ method_name {string}
+	+ service_name {string} full service name
+	+ method_name {string} method name
 	+ returns {string}
 	+ e.g. `assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")`
