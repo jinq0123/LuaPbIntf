@@ -60,8 +60,12 @@ int luaopen_luapbintf(lua_State* L)
                 return pImpl->GetRpcOutputName(sServiceName, sMethodName);
             })
         .addFunction("get_service_descriptor",
-            [pImpl](const string& sServiceName) {
-                return pImpl->GetServiceDescriptor(sServiceName);
+            [L, pImpl](const string& sServiceName) {
+                using Desc = google::protobuf::ServiceDescriptor;
+                const Desc* pDesc = pImpl->GetServiceDescriptor(sServiceName);
+                if (!pDesc)
+                    throw LuaIntf::LuaException("No such service: " + sServiceName);
+                return LuaRef::fromPtr(L, const_cast<Desc*>(pDesc));
             })
         ;  // LuaBinding(mod)
 
