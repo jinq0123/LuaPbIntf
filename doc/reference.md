@@ -8,7 +8,7 @@
 		- Specify the directory in which to search for imports.
 		- May add multiple times to set multiple proto paths,
 		  and the directories will be searched in order.
-		- If not given, the current working directory is used.
+		- The current working directory is always added first automatically.
 		- Same as `map_path("", proto_path)`
 	+ `proto_path` {string}: a proto path
 	+ returns nil
