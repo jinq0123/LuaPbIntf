@@ -18,6 +18,7 @@ namespace protobuf {
 class DynamicMessageFactory;
 class Message;
 class MethodDescriptor;
+class ServiceDescriptor;
 namespace compiler {
 class DiskSourceTree;
 class Importer;
@@ -60,6 +61,9 @@ public:
         const string& sMethodName) const;
     string GetRpcOutputName(const string& sServiceName,
         const string& sMethodName) const;
+
+    const google::protobuf::ServiceDescriptor*
+        GetServiceDescriptor(const string& sServiceName) const;
 
 private:
     const google::protobuf::MethodDescriptor& FindRpcMethod(

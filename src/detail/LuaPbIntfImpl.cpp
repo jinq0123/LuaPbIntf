@@ -118,11 +118,16 @@ std::string LuaPbIntfImpl::GetRpcOutputName(const string& sServiceName,
     return FindRpcMethod(sServiceName, sMethodName).output_type()->full_name();
 }
 
+const google::protobuf::ServiceDescriptor*
+LuaPbIntfImpl::GetServiceDescriptor(const string& sServiceName) const
+{
+    return m_pImporter->pool()->FindServiceByName(sServiceName);
+}
+
 const MethodDescriptor& LuaPbIntfImpl::FindRpcMethod(
     const string& sServiceName, const string& sMethodName) const
 {
-    const ServiceDescriptor* pDesc = m_pImporter->pool()->
-        FindServiceByName(sServiceName);
+    const ServiceDescriptor* pDesc = GetServiceDescriptor(sServiceName);
     if (!pDesc) throw LuaException("No such service: " + sServiceName);
     const MethodDescriptor* pMethod = pDesc->FindMethodByName(sMethodName);
     if (pMethod) return *pMethod;

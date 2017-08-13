@@ -68,3 +68,10 @@
 	+ method_name {string} method name
 	+ returns {string}
 	+ e.g. `assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")`
+
+* `luapbintf.get_service_descriptor(service_name)`
+	+ Get rpc service descriptor. For grpc_lua.
+	+ service_name {string} full service name
+	+ returns {userdata} Raw pointer to google::protobuf::ServiceDescriptor.
+	+ e.g. `pb.get_service_descriptor("test.Test")`
+	

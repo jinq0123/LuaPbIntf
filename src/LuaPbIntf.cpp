@@ -59,6 +59,10 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sServiceName, const string& sMethodName) {
                 return pImpl->GetRpcOutputName(sServiceName, sMethodName);
             })
+        .addFunction("get_service_descriptor",
+            [pImpl](const string& sServiceName) {
+                return pImpl->GetServiceDescriptor(sServiceName);
+            })
         ;  // LuaBinding(mod)
 
     mod.pushToStack();
