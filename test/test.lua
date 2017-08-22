@@ -110,14 +110,14 @@ function M.test_many_fields()
     assert(n3 == "n1" or n3 == "n2" or n3 == "n3")
     assert(10 == msg2.cmd)
     assert(msg2.common_msg)
-end  -- test_encode_decode()
+end  -- test_many_fields()
 
 function M.test_packed()
     local msg = { samples = {1,2,3} }
     local s = pb.encode("test.TestMsg", msg)
     local msg2 = pb.decode("test.TestMsg", s)
     assert(#msg2.samples == 3)
-end  -- test.packed()
+end  -- test_packed()
 
 function M.test_map()
     local msgs = {}
@@ -184,6 +184,17 @@ function M.test_decode_return_nil()
     assert(nil == pb.decode("test.TestMsg", "IllegalData"))
 end  -- test_decode_return_nil()
 
+-- Failed test: issue #6
+function M.test_coroutine()
+    local co = coroutine.wrap(function()
+        M.test_encode_decode()
+        coroutine.yield()
+        M.test_encode_decode()
+    end)
+    co()
+    co()
+end  -- test_coroutine()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -206,6 +217,7 @@ function M.test_all()
     M.test_oneof_both()
     M.test_oneof_default_value()
     M.test_decode_return_nil()
+    -- Failed: M.test_coroutine()
     print("Test OK!")
 end  -- test_all
 
