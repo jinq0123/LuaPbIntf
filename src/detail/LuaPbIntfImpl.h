@@ -62,6 +62,11 @@ public:
     string GetRpcOutputName(const string& sServiceName,
         const string& sMethodName) const;
 
+    bool IsRpcClientStreaming(const string& sServiceName,
+        const string& sMethodName) const;
+    bool IsRpcServerStreaming(const string& sServiceName,
+        const string& sMethodName) const;
+
     const google::protobuf::ServiceDescriptor*
         GetServiceDescriptor(const string& sServiceName) const;
 

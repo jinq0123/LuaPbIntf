@@ -2,7 +2,7 @@ from conans import ConanFile, CMake
 
 class LuapbintfConan(ConanFile):
     name = "luapbintf"
-    version = "0.1"
+    version = "0.2"
     license = "MIT"
     url = "https://github.com/jinq0123/LuaPbIntf"
     description = "Binding Protobuf 3 to Lua 5.3"

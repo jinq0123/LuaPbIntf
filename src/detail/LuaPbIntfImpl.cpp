@@ -118,6 +118,18 @@ std::string LuaPbIntfImpl::GetRpcOutputName(const string& sServiceName,
     return FindRpcMethod(sServiceName, sMethodName).output_type()->full_name();
 }
 
+bool LuaPbIntfImpl::IsRpcClientStreaming(const string& sServiceName,
+    const string& sMethodName) const
+{
+    return FindRpcMethod(sServiceName, sMethodName).client_streaming();
+}
+
+bool LuaPbIntfImpl::IsRpcServerStreaming(const string& sServiceName,
+    const string& sMethodName) const
+{
+    return FindRpcMethod(sServiceName, sMethodName).server_streaming();
+}
+
 const google::protobuf::ServiceDescriptor*
 LuaPbIntfImpl::GetServiceDescriptor(const string& sServiceName) const
 {

@@ -59,6 +59,14 @@ int luaopen_luapbintf(lua_State* L)
             [pImpl](const string& sServiceName, const string& sMethodName) {
                 return pImpl->GetRpcOutputName(sServiceName, sMethodName);
             })
+        .addFunction("is_rpc_client_streaming",
+            [pImpl](const string& sServiceName, const string& sMethodName) {
+                return pImpl->IsRpcClientStreaming(sServiceName, sMethodName);
+            })
+        .addFunction("is_rpc_server_streaming",
+            [pImpl](const string& sServiceName, const string& sMethodName) {
+                return pImpl->IsRpcServerStreaming(sServiceName, sMethodName);
+            })
         .addFunction("get_service_descriptor",
             [L, pImpl](const string& sServiceName) {
                 using Desc = google::protobuf::ServiceDescriptor;

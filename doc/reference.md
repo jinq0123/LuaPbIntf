@@ -68,7 +68,19 @@
 	+ method_name {string} method name
 	+ returns {string}
 	+ e.g. `assert(pb.get_rpc_output_name("test.Test", "Foo") == "test.CommonMsg")`
-
+* `luapbintf.is_rpc_client_streaming(service_name, method_name)`
+	+ Is rpc method client streaming.
+	+ service_name {string} full service name
+	+ method_name {string} method name
+	+ returns {bool}
+	+ e.g. `assert(not pb.is_rpc_client_streaming("test.Test", "Foo"))`
+* `luapbintf.is_rpc_server_streaming(service_name, method_name)`
+	+ Is rpc method server streaming.
+	+ service_name {string} full service name
+	+ method_name {string} method name
+	+ returns {bool}
+	+ e.g. `assert(not pb.is_rpc_server_streaming("test.Test", "Foo"))`
+	
 * `luapbintf.get_service_descriptor(service_name)`
 	+ Get rpc service descriptor. For grpc_lua.
 	+ service_name {string} full service name
