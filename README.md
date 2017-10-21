@@ -34,20 +34,11 @@ LuaPbIntf use lua table to present Message,
 
 ### Without conan (depricated)
 Init third_party dir first, see [thirdy_party/README.md](thirdy_party/README.md).
-Then use VS2015 build/LuaPbIntf.sln or build/Makefile to build. e.g.
-
-	make config=release
-
-Output lubpbintf.dll or lubpbintf.so is in build/bin.
+Then use premake5 to generate VS2015 sln or Makefile to build. See [premake/premake5.bat](premake/premake5.bat)
 
 On Windows, it is recommended by [google](https://github.com/google/protobuf/tree/master/cmake)
  that you use static protobuf only.
 On Linux, you may need to recompile libprotobuf.a with -fPIC, or link libprotobuf.so.
-
-The Makefile is only for linux. 
-Please regenerate Makefile for a different operating system with premake.
-For example:
-```premake5 --os=macosx gmake```
 
 #### Link error
 ```error LNK2019: unresolved external symbol "void __cdecl lua_settop(struct lua_State *,int)" (?lua_settop@@YAXPAUlua_State@@H@Z)```
