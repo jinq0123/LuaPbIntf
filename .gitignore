@@ -35,6 +35,7 @@
 /premake/LuaPbIntf.sdf
 /premake/*.opendb
 /premake/*.db
+
 /third_party/lua
 /third_party/lua-intf
 /third_party/protobuf
@@ -46,3 +47,6 @@
 
 *.pyc
 test_package/build
+
+/premake/vs20*
+/premake/gmake

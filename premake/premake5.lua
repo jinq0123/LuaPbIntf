@@ -5,10 +5,11 @@ Usage examples:
     fot linux:   premake5.exe --os=linux gmake
 ]]
 
--- Todo: support non-vs2015, x64
-
 workspace "LuaPbIntf"
-    configurations { "Debug", "Release" }
+	location (_ACTION)  -- subdir vs2015 (or gmake, ...)
+	configurations { "Release", "Debug" }
+	platforms { "x64", "x32" }
+
 project "LuaPbIntf"
     kind "SharedLib"
     targetname "luapbintf"
