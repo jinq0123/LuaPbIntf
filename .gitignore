@@ -28,13 +28,13 @@
 *.out
 *.app
 
-/build/.vs
-/build/bin
-/build/obj
-/build/premake5.exe
-/build/LuaPbIntf.sdf
-/build/*.opendb
-/build/*.db
+/premake/.vs
+/premake/bin
+/premake/obj
+/premake/premake5.exe
+/premake/LuaPbIntf.sdf
+/premake/*.opendb
+/premake/*.db
 /third_party/lua
 /third_party/lua-intf
 /third_party/protobuf
