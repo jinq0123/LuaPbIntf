@@ -56,6 +56,12 @@
 		- otherwise returns a message table
 	+ e.g. `decode("test.TestMsg", "")`
 
+* `luapbintf.get_service_descriptor(service_name)`
+	+ Get rpc service descriptor.
+	+ service_name {string} full service name, like "test.Test"
+	+ returns {table} message table of google::protobuf::ServiceDescriptorProto.
+	+ e.g. `pb.get_service_descriptor("test.Test")`
+	
 * `luapbintf.get_rpc_input_name(service_name, method_name)`
 	+ Get rpc service method input message type full name.
 	+ service_name {string} full service name
@@ -81,9 +87,4 @@
 	+ returns {bool}
 	+ e.g. `assert(not pb.is_rpc_server_streaming("test.Test", "Foo"))`
 	
-* `luapbintf.get_service_descriptor(service_name)`
-	+ Get rpc service descriptor. For grpc_lua.
-	+ service_name {string} full service name
-	+ returns {userdata} Raw pointer to google::protobuf::ServiceDescriptor.
-	+ e.g. `pb.get_service_descriptor("test.Test")`
 	
