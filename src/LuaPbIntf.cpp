@@ -51,6 +51,10 @@ int luaopen_luapbintf(lua_State* L)
             [L, pImpl](const string& sMsgTypeName, const string& sData) {
                 return pImpl->Decode(L, sMsgTypeName, sData);
             })
+        .addFunction("get_service_descriptor",
+            [L, pImpl](const string& sServiceName) {
+                return pImpl->GetServiceDescriptorTbl(L, sServiceName);
+            })
         .addFunction("get_rpc_input_name",
             [pImpl](const string& sServiceName, const string& sMethodName) {
                 return pImpl->GetRpcInputName(sServiceName, sMethodName);
@@ -66,14 +70,6 @@ int luaopen_luapbintf(lua_State* L)
         .addFunction("is_rpc_server_streaming",
             [pImpl](const string& sServiceName, const string& sMethodName) {
                 return pImpl->IsRpcServerStreaming(sServiceName, sMethodName);
-            })
-        .addFunction("get_service_descriptor",
-            [L, pImpl](const string& sServiceName) {
-                using Desc = google::protobuf::ServiceDescriptor;
-                const Desc* pDesc = pImpl->GetServiceDescriptor(sServiceName);
-                if (!pDesc)
-                    throw LuaIntf::LuaException("No such service: " + sServiceName);
-                return LuaRef::fromPtr(L, const_cast<Desc*>(pDesc));
             })
         ;  // LuaBinding(mod)
 

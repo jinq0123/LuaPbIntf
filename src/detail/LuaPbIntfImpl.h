@@ -56,6 +56,8 @@ public:
     LuaRef Decode(lua_State* L, const string& sMsgTypeName,
         const string& sData) const;
 
+    LuaRef GetServiceDescriptorTbl(lua_State* L, const string& sServiceName) const;
+
     // Get RPC request or response message type.
     string GetRpcInputName(const string& sServiceName,
         const string& sMethodName) const;
@@ -67,10 +69,9 @@ public:
     bool IsRpcServerStreaming(const string& sServiceName,
         const string& sMethodName) const;
 
+private:
     const google::protobuf::ServiceDescriptor*
         GetServiceDescriptor(const string& sServiceName) const;
-
-private:
     const google::protobuf::MethodDescriptor& FindRpcMethod(
         const string& sServiceName, const string& sMethodName) const;
 

@@ -106,6 +106,19 @@ LuaRef LuaPbIntfImpl::Decode(lua_State* L, const string& sMsgTypeName,
     return LuaRef(L, nullptr);
 }
 
+LuaRef LuaPbIntfImpl::GetServiceDescriptorTbl(lua_State* L,
+    const string& sServiceName) const
+{
+    assert(L);
+    const google::protobuf::ServiceDescriptor* pDesc
+        = GetServiceDescriptor(sServiceName);
+    if (!pDesc)
+        throw LuaIntf::LuaException("No such service: " + sServiceName);
+    google::protobuf::ServiceDescriptorProto msg;
+    pDesc->CopyTo(&msg);
+    return MsgToTbl(*L, msg).ToTbl();
+}
+
 std::string LuaPbIntfImpl::GetRpcInputName(const string& sServiceName,
     const string& sMethodName) const
 {
