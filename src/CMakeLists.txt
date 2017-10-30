@@ -14,4 +14,5 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 file(GLOB_RECURSE SRC_LIST "*.cpp")
 add_library(luapbintf ${SRC_LIST})
+add_compile_options(-std=c++11)
 target_link_libraries(luapbintf ${CONAN_LIBS})
