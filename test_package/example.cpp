@@ -7,6 +7,7 @@ __declspec(dllimport)
 int luaopen_luapbintf(lua_State* L);
 
 int main() {
-    void * p = static_cast<void*>(luaopen_luapbintf);
+    int (*pFun)(lua_State*);
+    pFun = luaopen_luapbintf;
     return 0;
 }
