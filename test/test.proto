@@ -33,4 +33,5 @@ message TestMsg
         string name2 = 11;
         CommonMsg msg2 = 12;
     }
+    uint64 uint64f = 13;  // issue #10
 };

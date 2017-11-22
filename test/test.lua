@@ -195,6 +195,15 @@ function M.test_coroutine()
     co()
 end  -- test_coroutine()
 
+-- Failed test: issue: uint64 support broken #10
+function M.test_uint64()
+    local n = math.pow(2, 32)
+    local msg = { uint64f = n }
+    local s = pb.encode("test.TestMsg", msg)
+    local msg2 = pb.decode("test.TestMsg", s)
+    assert(msg2.uint64f == n)
+end  -- test_uint64()
+
 function M.test_all()
     M.test_rpc()
     M.test_encode_decode()
@@ -218,6 +227,7 @@ function M.test_all()
     M.test_oneof_default_value()
     M.test_decode_return_nil()
     -- Failed: M.test_coroutine()
+    M.test_uint64()
     print("Test OK!")
 end  -- test_all
 
