@@ -195,7 +195,7 @@ function M.test_coroutine()
     co()
 end  -- test_coroutine()
 
--- Failed test: issue: uint64 support broken #10
+-- Test for issue #10: uint64 support
 function M.test_uint64()
     local n = math.pow(2, 32)
     local msg = { uint64f = n }

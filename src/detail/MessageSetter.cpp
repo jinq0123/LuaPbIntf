@@ -1,5 +1,7 @@
 #include "MessageSetter.h"
 
+#include "Config.h"  // for LUA_HAS_64BIT_INTEGER
+
 #include <LuaIntf/LuaIntf.h>
 #include <google/protobuf/descriptor.h>  // for Descriptor
 #include <google/protobuf/message.h>  // for Message
@@ -57,7 +59,11 @@ void MessageSetter::SetField(const string& sField, const LuaRef& luaValue)
         m_pRefl->SetUInt32(&m_rMsg, pField, luaValue.toValue<uint32>());
         return;
     case Fd::CPPTYPE_UINT64:
+#if LUA_HAS_64BIT_INTEGER
         m_pRefl->SetUInt64(&m_rMsg, pField, luaValue.toValue<uint64>());
+#else  // To support Lua5.1/5.2.
+        m_pRefl->SetUInt64(&m_rMsg, pField, luaValue.toValue<double>());
+#endif
         return;
     case Fd::CPPTYPE_DOUBLE:
         m_pRefl->SetDouble(&m_rMsg, pField, luaValue.toValue<double>());

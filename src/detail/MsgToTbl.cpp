@@ -1,5 +1,7 @@
 #include "MsgToTbl.h"
 
+#include "Config.h"  // for LUA_HAS_64BIT_INTEGER
+
 #include <LuaIntf/LuaIntf.h>
 #include <LuaIntf/LuaState.h>  // for LuaException
 #include <google/protobuf/message.h>  // for Message
@@ -72,7 +74,11 @@ LuaRef MsgToTbl::GetField(const FieldDescriptor& field) const
     case Fd::CPPTYPE_UINT32:
         return LuaRefValue(L, m_pRefl->GetUInt32(m_msg, &field));
     case Fd::CPPTYPE_UINT64:
+#if LUA_HAS_64BIT_INTEGER
         return LuaRefValue(L, m_pRefl->GetUInt64(m_msg, &field));
+#else  // To support Lua5.1/5.2.
+        return LuaRefValue(L, double(m_pRefl->GetUInt64(m_msg, &field)));
+#endif
     case Fd::CPPTYPE_DOUBLE:
         return LuaRefValue(L, m_pRefl->GetDouble(m_msg, &field));
     case Fd::CPPTYPE_FLOAT:
