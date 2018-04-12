@@ -13,7 +13,7 @@ class LuapbintfConan(ConanFile):
     exports_sources = "src/*"
     requires = ("lua-cpp/5.3.4@jinq0123/testing",
                 "lua-intf/0.1@jinq0123/testing",
-                "Protobuf/3.5.1@inexorgame/stable")
+                "protobuf/3.5.1@bincrafters/stable")
 
     def build(self):
         cmake = CMake(self)

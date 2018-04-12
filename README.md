@@ -27,9 +27,9 @@ LuaPbIntf use lua table to present Message,
 ### Build with conan
 1. Install [conan](http://docs.conan.io/en/latest/installation.html).
 1. Add conan repositories
-    * `conan remote add remote_bintray_inexorgame https://api.bintray.com/conan/inexorgame/inexor-conan`
+    * `conan remote add remote_bintray_bincrafters https://api.bintray.com/conan/bincrafters/public-conan`
     * `conan remote add remote_bintray_jinq0123 https://api.bintray.com/conan/jinq0123/test`
-1. `conan create . user/channel --build missing`
+1. `conan create . user/channel -o protobuf:static_rt=False --build missing`
     * The result `luapbintf.dll`/`luapbintf.so` is in `~/.conan/data/luapbintf/0.1/user/channel/package/`...
     * Add build settings like:
         `conan create user/channel --build missing -s arch=x86`
