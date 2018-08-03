@@ -35,7 +35,7 @@ LuaPbIntf use lua table to present Message,
         `conan create user/channel --build missing -s arch=x86`
 
 ### Without conan (depricated)
-Init third_party dir first, see [thirdy_party/README.md](thirdy_party/README.md).
+Init third_party dir first, see [third_party/README.md](thirdy_party/README.md).
 Then use premake5 to generate VS2015 sln or Makefile to build. See [premake/premake5.bat](premake/premake5.bat)
 
 On Windows, it is recommended by [google](https://github.com/google/protobuf/tree/master/cmake)
