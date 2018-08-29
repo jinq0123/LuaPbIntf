@@ -148,4 +148,8 @@ Proto2 extension is not supported, which is replaced by Any type in proto3.
 See [doc/reference.md](doc/reference.md).
 
 ## Known Bugs
-* Error in coroutine. See issue #6, #17.
+* Error in coroutine. See issue
+ [#6](https://github.com/jinq0123/LuaPbIntf/issues/6),
+ [#17](https://github.com/jinq0123/LuaPbIntf/issues/17).
+ There is a patch: [SteveKChiu/lua-intf#131](https://github.com/SteveKChiu/lua-intf/issues/131)
+ 
