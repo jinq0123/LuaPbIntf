@@ -146,3 +146,6 @@ Proto2 extension is not supported, which is replaced by Any type in proto3.
 
 ## Reference
 See [doc/reference.md](doc/reference.md).
+
+## Known Bugs
+* Error in coroutine. See issue #6, #17.
