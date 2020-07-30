@@ -1,6 +1,8 @@
 #ifndef DETAIL_CONFIG_H
 #define DETAIL_CONFIG_H
 
+#include <LuaIntf/LuaCompat.h>  // for default LUAINTF_LINK_LUA_COMPILED_IN_CXX
+
 #if !LUAINTF_LINK_LUA_COMPILED_IN_CXX
 extern "C"
 {
